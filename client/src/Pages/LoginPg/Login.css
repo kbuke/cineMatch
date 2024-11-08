@@ -1,0 +1,26 @@
+#logInHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: black;
+    color: white;
+    margin-bottom: 0px;
+}
+
+#logInInputs{
+    margin-left: auto;
+    display: flex;
+    margin-right: 20px;
+}
+
+.loginInput{
+    margin-right: 20px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-bottom: solid;
+    width: 350px;
+    font-size: large;
+}
+
+

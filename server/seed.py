@@ -30,6 +30,18 @@ if __name__=="__main__":
         db.session.commit()
 
         print("Seeding tv shows")
+        got=TvShows(
+            name="Game of Thrones",
+            poster="https://egoamo.co.za/cdn/shop/products/PP34200_-_GoT_-_John_Snow_-_Winter_is_here_800x.jpg?v=1558992556",
+            release_date=date(2011, 4, 18),
+            summary="Royal families battle for the Iron Throne in Westeros. While in the north of the continent an ancient threat looms.",
+            media_type="TV Programme",
+            background_image="https://variety.com/wp-content/uploads/2019/05/game-of-thrones-season-6-episode-9.jpg",
+            origin_country="USA",
+            end_date=date(2019, 5, 20)
+        )
+        db.session.add_all([got])
+        db.session.commit()
 
         print("Seeding Genres")
         fantasy=Genres(
@@ -50,6 +62,14 @@ if __name__=="__main__":
             media_id=1,
             genre_id=1
         )
-        db.session.add_all([lotr1_action, lotr1_fantasy])
+        got_fantasy=MediaGenres(
+            media_id=2,
+            genre_id=1
+        )
+        got_action=MediaGenres(
+            media_id=2,
+            genre_id=2
+        )
+        db.session.add_all([lotr1_action, lotr1_fantasy, got_fantasy, got_action])
         db.session.commit()
         

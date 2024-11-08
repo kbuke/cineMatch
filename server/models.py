@@ -25,6 +25,7 @@ class Media(db.Model, SerializerMixin):
 
     serialize_rules=(
         "-film_genres.media",
+        "-film_genres.genre.film_genres",
     )
 
     type = db.Column(db.String(50))
@@ -68,10 +69,19 @@ class Movies(Media):
             return minutes 
         raise ValueError("Can not have more minutes than 59")
 
+    __mapper_args__={
+        'polymorphic_identity': "Movies"
+    }
+    
+    
+
 
 #Create Tv Show Table
 class TvShows(Media):
     __tablename__ = "tv_shows"
+    __mapper_args__={
+        "polymorphic_identity": "tv_show"
+    }
 
     @declared_attr
     def id(cls):
@@ -83,14 +93,18 @@ class TvShows(Media):
 
     @validates("end_date")
     def validate_end_date(self, key, end_date):
-        if self.release_date <= end_date:
+        if self.release_date and self.release_date <= end_date:
             return end_date
         raise ValueError("End date can not be before premiere date")
+    
+    __mapper_args__ = {
+        'polymorphic_identity': 'Tv_shows'
+    }
 
 
 #Create table for genres
 class Genres(db.Model, SerializerMixin):
-    table_name="genres"
+    __tablename__="genres"
 
     id=db.Column(db.Integer, primary_key=True)
     genre=db.Column(db.String, nullable=False)
@@ -111,7 +125,7 @@ class Genres(db.Model, SerializerMixin):
 
 
 class MediaGenres(db.Model, SerializerMixin):
-    table_name="media_genres"
+    __tablename__="media_genres"
 
     id=db.Column(db.Integer, primary_key=True)
     media_id=db.Column(db.Integer, db.ForeignKey("media_types.id"))
