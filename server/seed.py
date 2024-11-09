@@ -1,9 +1,15 @@
-from models import Media, Movies, TvShows, Genres, MediaGenres
+from models import Media, Movies, TvShows, Genres, MediaGenres, Users, UsersGenres
 
 from app import app 
 from config import db 
 
 from datetime import date
+
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 if __name__=="__main__":
     with app.app_context():
@@ -46,9 +52,11 @@ if __name__=="__main__":
         print("Seeding Genres")
         fantasy=Genres(
             genre="Fantasy",
+            image="https://wellingtonnz.bynder.com/transform/d6a2359f-531b-4e5e-ab10-559531ecc4d3/Lord-of-the-Rings"
         )
         action=Genres(
             genre="Action",
+            image="https://images-r2-1.thebrag.com/var/uploads/2024/05/furiosa-trailer.jpg"
         )
         db.session.add_all([fantasy, action])
         db.session.commit()
@@ -71,5 +79,29 @@ if __name__=="__main__":
             genre_id=2
         )
         db.session.add_all([lotr1_action, lotr1_fantasy, got_fantasy, got_action])
+        db.session.commit()
+
+        print("Seeding users")
+        kaan_user=Users(
+            email=os.environ.get("kaan_email"),
+            first_name="Kaan",
+            last_name="Buke",
+            user_type="Viewer",
+            city="London"
+        )
+        kaan_user.password_hash=os.environ.get("kaan_password")
+        db.session.add_all([kaan_user])
+        db.session.commit()
+
+        print("Seeding users fave genres")
+        kaan_fave_fantasy=UsersGenres(
+            user_id=1,
+            genre_id=1
+        )
+        kaan_fave_action=UsersGenres(
+            user_id=1,
+            genre_id=2
+        )
+        db.session.add_all([kaan_fave_action, kaan_fave_fantasy])
         db.session.commit()
         

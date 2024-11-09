@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy import Time 
 from config import db, bcrypt
 import re 
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 #Add umbrella model for media (films, tv)
@@ -26,6 +27,7 @@ class Media(db.Model, SerializerMixin):
     serialize_rules=(
         "-film_genres.media",
         "-film_genres.genre.film_genres",
+        "-film_genres.genre.user_genres",
     )
 
     type = db.Column(db.String(50))
@@ -108,6 +110,7 @@ class Genres(db.Model, SerializerMixin):
 
     id=db.Column(db.Integer, primary_key=True)
     genre=db.Column(db.String, nullable=False)
+    image=db.Column(db.String, nullable=False, server_default="")
 
     @validates("genre")
     def validate_genre(self, key, genre):
@@ -118,15 +121,127 @@ class Genres(db.Model, SerializerMixin):
     
     #Add relatonship (to media: many-to-many)
     film_genres=db.relationship("MediaGenres", backref="genre")
+    user_genres=db.relationship("UsersGenres", backref="genre")
 
     serialize_rules=(
         "-film_genres.genre",
+        "-film_genres.media",
+        "-user_genres.genre",
+        "-user_genres.user",
     )
 
-
+#Create table for medias genre
 class MediaGenres(db.Model, SerializerMixin):
     __tablename__="media_genres"
 
     id=db.Column(db.Integer, primary_key=True)
     media_id=db.Column(db.Integer, db.ForeignKey("media_types.id"))
     genre_id=db.Column(db.Integer, db.ForeignKey("genres.id"))
+
+
+#Create table for users
+class Users(db.Model, SerializerMixin):
+    __tablename__="users"
+
+    id=db.Column(db.Integer, primary_key=True)
+    email=db.Column(db.String, nullable=False)
+    first_name=db.Column(db.String, nullable=False)
+    last_name=db.Column(db.String, nullable=False)
+    _password_hash=db.Column(db.String, nullable=False)
+    user_type=db.Column(db.String, nullable=False)
+    city=db.Column(db.String, nullable=True)
+
+    #Set up relations (followers/following, genre interests, reviews, watchlist)
+    genres=db.relationship("UsersGenres", backref="user")
+
+    serialize_rules=(
+        "-genres.user",
+        "-genres.genre.user_genres",
+        "-genres.genre.film_genres",
+    )
+
+
+    type=db.Column(db.String(50))
+
+    __mapper_args__={
+        "polymorphic_on": type,
+        "polymorphic_identity": "user"
+    }
+
+    #Validate account types
+    ALLOWED_USERS=("Viewer", "Actor", "Director")
+
+    @validates("user_type")
+    def validate_user_type(self, key, account_type):
+        if account_type in self.ALLOWED_USERS:
+            return account_type
+        raise ValueError(f"The account type must be one of {', '.join(self.ALLOWED_USERS)}")
+
+    #Password hashing and authentication
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError("password: write only attribute")
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        self._password_hash=bcrypt.generate_password_hash(password).decode('utf-8')
+    
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self._password_hash, password)
+    
+    @validates("email")
+    def validate_email(self, key, value):
+        if "@" and "." not in value:
+            raise ValueError("Please enter a valid email address")
+        return value
+
+class Viewers(Users):
+    __tablename__="viewers"
+
+    @declared_attr
+    def id(cls):
+        return db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    
+    __mapper_args__={
+        "polymorphic_identity": "Viewers"
+    }
+
+class Actors(Users):
+    __tablename__="actors"
+
+    @declared_attr
+    def id(cls):
+        return db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    
+    __mapper_args__={
+        "polymorphic_identity": "Actors"
+    }
+
+    #Set up relations (tv shows and movies theyve directed and starred in)
+
+class Director(Users):
+    __tablename__="directors"
+
+    @declared_attr
+    def id(cls):
+        return db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    
+    __mapper_args__={
+        "polymorphic_identity": "Directors"
+    }
+
+    #Set up relations (tv shows and movies theyve directed and starred in)
+
+
+
+#Connect users to their favourite genres
+class UsersGenres(db.Model, SerializerMixin):
+    __tablename__="users_genres"
+
+    id=db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey("users.id"))
+    genre_id=db.Column(db.Integer, db.ForeignKey("genres.id"))
+
+
+    
+
