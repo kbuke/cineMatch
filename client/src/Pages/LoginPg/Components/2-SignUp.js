@@ -1,39 +1,125 @@
-import { useState } from "react"
-import "./2-SignUp.css"
+import { useEffect, useState } from "react";
+import "./2-SignUp.css";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
-export default function SignUp(){
+export default function SignUp() {
+    const [signUpComplete, setSignUpComplete] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const [newEmail, setNewEmail] = useState("")
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [city, setCity] = useState("")
+    const userTypes = ["Viewer", "Actor", "Director"];
 
-    const signUpInput = (ph, state, type) => {
-        return(
-            <input 
+    const renderTypes = [
+        <option key="default" value="" disabled>
+            Please select account type
+        </option>,
+        ...userTypes.map((type, index) => (
+            <option key={index} value={type}>
+                {type}
+            </option>
+        )),
+    ];
+
+    const formSchema = yup.object().shape({
+        newUserEmail: yup
+            .string()
+            .email("Invalid email address")
+            .required("Must enter email"),
+        newUserFirstName: yup
+            .string()
+            .required("Must enter first name"),
+        newUserLastName: yup
+            .string()
+            .required("Must enter last name"),
+        newUserType: yup
+            .string()
+            .required("Must select account type"),
+        newUserCity: yup.string(),
+        newUserPassword: yup
+            .string()
+            .required("Must enter a password"),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref("newUserPassword"), null], "Passwords must match")
+            .required("Must confirm password"),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            newUserEmail: "",
+            newUserFirstName: "",
+            newUserLastName: "",
+            newUserType: "",
+            newUserCity: "",
+            newUserPassword: "",
+            confirmPassword: "",
+        },
+        validationSchema: formSchema,
+        onSubmit: (values) => {
+            setLoading(true);
+            fetch("/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values, null, 2),
+            })
+                .then((res) => {
+                    setLoading(false);
+                    if (res.status === 201) {
+                        setSignUpComplete(true);
+                    }
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
+        },
+    });
+
+    const signUpInput = (ph, type, variable) => (
+        <>
+            <input
                 className="signUpInput"
                 placeholder={ph}
                 type={type}
-                onChange={(e) => state(e.target.value)}
+                onChange={formik.handleChange}
+                name={variable}
+                value={formik.values[variable]}
             />
-        )
-    }
+            <p style={{ color: "red" }}>{formik.errors[variable]}</p>
+        </>
+    );
 
-    return(
-        <form
-            id="signUpForm"
-        >
-            <h1
-                style={{fontWeight: "200", fontSize: "300%"}}
-            >Sign Up</h1>
+    return signUpComplete ? (
+        <div></div>
+    ) : (
+        <form id="signUpForm" onSubmit={formik.handleSubmit}>
+            <h1 style={{ fontWeight: "200", fontSize: "300%" }}>Sign Up</h1>
 
-           {signUpInput("Please enter YOUR email", setNewEmail, "text")} 
+            {signUpInput("Please enter YOUR email", "text", "newUserEmail")}
+            {signUpInput("Please enter your FIRST name", "text", "newUserFirstName")}
+            {signUpInput("Please enter your LAST name", "text", "newUserLastName")}
+            {signUpInput("Please enter your CITY", "text", "newUserCity")}
 
-           {signUpInput("Please enter your FIRST name", setFirstName, "text")}
+            <>
+                <select
+                    name="newUserType"
+                    onChange={formik.handleChange}
+                    value={formik.values.newUserType}
+                >
+                    {renderTypes}
+                </select>
+                <p style={{ color: "red" }}>{formik.errors["newUserType"]}</p>
+            </>
 
-           {signUpInput("Please enter your LAST name", setLastName, "text")}
+            {signUpInput("Please enter your PASSWORD", "password", "newUserPassword")}
+            {signUpInput("Confirm your PASSWORD", "password", "confirmPassword")}
 
-           {signUpInput("Please enter your CITY", setCity, "text")}
+            {loading ? (
+                <p>Signing Up...</p>
+            ) : (
+                <button type="submit">Sign Up To Flix-Ation</button>
+            )}
         </form>
-    )
+    );
 }

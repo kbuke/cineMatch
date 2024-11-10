@@ -4,7 +4,7 @@ import { useState } from "react"
 
 export default function Home({
     Logo,
-    instaLogo
+    instaLogo,
 }){
     const [loggedIn, setLoggedIn] = useState(false)
 

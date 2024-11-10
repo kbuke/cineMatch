@@ -29,8 +29,33 @@ class AllGenres(Resource):
 
 class AllUsers(Resource):
     def get(self):
-        user=[users.to_dict() for users in Users.query.all()]
-        return user, 200
+        users = [user.to_dict() for user in Users.query.all()]
+        return users, 200
+
+    def post(self):
+        json = request.get_json()
+        try:
+            # Check if the email already exists
+            if Users.query.filter_by(email=json.get("newUserEmail")).first():
+                return {"error": "Email already exists"}, 400
+
+            new_user = Users(
+                email=json.get("newUserEmail"),
+                first_name=json.get("newUserFirstName"),
+                last_name=json.get("newUserLastName"),
+                user_type=json.get("newUserType"),
+                city=json.get("newUserCity")
+            )
+            new_user.password_hash = json.get("newUserPassword")
+            db.session.add(new_user)
+            db.session.commit()
+            return new_user.to_dict(), 201
+        except ValueError as e:
+            return {"error": [str(e)]}, 400
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "A database error occurred."}, 500
+        
 
 api.add_resource(AllMedia, '/media')
 api.add_resource(AllFilms, '/films')
