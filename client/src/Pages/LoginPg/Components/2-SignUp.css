@@ -15,7 +15,7 @@
 }
 
 .signUpInput{
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     margin-left: 10px;
     margin-right: 10px;
     background-color: black;
@@ -26,4 +26,17 @@
     font-weight: 200;
     font-size: 150%;
     text-align: center;
+}
+
+#signUpConfirmed{
+    background-color: rgb(78, 181, 78, 0.8);
+    margin-left: 10px;
+    height: 200px;
+    align-self: center;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }

@@ -6,6 +6,7 @@ import * as yup from "yup";
 export default function SignUp() {
     const [signUpComplete, setSignUpComplete] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [emailInUse, setEmailInUse] = useState(false)
 
     const userTypes = ["Viewer", "Actor", "Director"];
 
@@ -68,6 +69,8 @@ export default function SignUp() {
                     setLoading(false);
                     if (res.status === 201) {
                         setSignUpComplete(true);
+                    } else if (res.status === 400) {
+                        setEmailInUse(true)
                     }
                 })
                 .catch(() => {
@@ -91,35 +94,62 @@ export default function SignUp() {
     );
 
     return signUpComplete ? (
-        <div></div>
+        <div id="signUpConfirmed">
+            <h2>Thank you for signing up to Flix-Ation</h2>
+            <h2 style={{ marginLeft: "10px", marginRight: "10px" }}>
+                Please log in to get your cinematic journey started
+            </h2>
+        </div>
     ) : (
         <form id="signUpForm" onSubmit={formik.handleSubmit}>
             <h1 style={{ fontWeight: "200", fontSize: "300%" }}>Sign Up</h1>
-
+    
             {signUpInput("Please enter YOUR email", "text", "newUserEmail")}
             {signUpInput("Please enter your FIRST name", "text", "newUserFirstName")}
             {signUpInput("Please enter your LAST name", "text", "newUserLastName")}
             {signUpInput("Please enter your CITY", "text", "newUserCity")}
-
+    
             <>
                 <select
                     name="newUserType"
                     onChange={formik.handleChange}
                     value={formik.values.newUserType}
+                    className="signUpInput"
                 >
                     {renderTypes}
                 </select>
                 <p style={{ color: "red" }}>{formik.errors["newUserType"]}</p>
             </>
-
+    
             {signUpInput("Please enter your PASSWORD", "password", "newUserPassword")}
             {signUpInput("Confirm your PASSWORD", "password", "confirmPassword")}
-
+    
             {loading ? (
                 <p>Signing Up...</p>
             ) : (
-                <button type="submit">Sign Up To Flix-Ation</button>
+                <>
+                    {emailInUse ? (
+                        <p style={{ color: "red" }}>
+                            This email is already registered
+                        </p>
+                    ) : null}
+    
+                    <button
+                        type="submit"
+                        style={{
+                            marginBottom: "10px",
+                            width: "40%",
+                            alignSelf: "center",
+                            cursor: "pointer",
+                            borderRadius: "24px",
+                            fontSize: "120%",
+                            marginTop: "0px",
+                        }}
+                    >
+                        Sign Up To Flix-Ation
+                    </button>
+                </>
             )}
         </form>
-    );
+    )
 }
