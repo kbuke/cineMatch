@@ -150,6 +150,7 @@ class Users(db.Model, SerializerMixin):
     _password_hash=db.Column(db.String, nullable=False)
     user_type=db.Column(db.String, nullable=False)
     city=db.Column(db.String, nullable=True)
+    login_count=db.Column(db.Integer, default=0)
 
     #Set up relations (followers/following, genre interests, reviews, watchlist)
     genres=db.relationship("UsersGenres", backref="user")

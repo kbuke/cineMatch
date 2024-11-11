@@ -57,11 +57,50 @@ class AllUsers(Resource):
             return {"error": "A database error occurred."}, 500
         
 
+class Login(Resource):
+    def post(self):
+        json=request.get_json()
+        # breakpoint()
+        email=json.get("userEmail", "").strip()
+        password=json.get("userPassword")
+
+        if not email or not password:
+            return {"error": "Email and Password required"}, 400
+        
+        user = Users.query.filter(Users.email == email).first()
+        print(f"Queried user: {user}")
+
+        if user and user.authenticate(password):
+            session["user_id"] = user.id
+
+            user.login_count += 1
+            db.session.commit()
+
+            response = make_response(user.to_dict())
+            response.status_code = 200 
+
+            return response
+        
+        return {"error": "Invalid email or password"}, 401
+
+
+class CheckSession(Resource):
+    def get(self):
+        user_id=session.get("user_id")
+        if user_id:
+            user = Users.query.filter(Users.id == user_id).first()
+            if user:
+                return user.to_dict(), 200
+        return {"message": "Unauthorized user"}, 401
+        
+
 api.add_resource(AllMedia, '/media')
 api.add_resource(AllFilms, '/films')
 api.add_resource(AllShows, '/shows')
 api.add_resource(AllGenres, '/genres')
 api.add_resource(AllUsers, '/users')
+api.add_resource(Login, '/login')
+api.add_resource(CheckSession, '/check_session')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
