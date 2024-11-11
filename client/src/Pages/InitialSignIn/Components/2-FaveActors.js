@@ -79,6 +79,7 @@ export default function FaveActors({
                 id={
                     filterFollowers.some(specificFollow => specificFollow.follows_id === actor.id) ? "selectedGenre" : "unSelectedGenre"
                 }
+                className="userImg"
             />
 
             <h3>{actor.first_name} {actor.last_name}</h3>
@@ -109,7 +110,11 @@ export default function FaveActors({
                     Previous
                 </button>
 
-                <button>Next</button>
+                <button
+                    onClick={() => setSelectedChoice("Directors")}
+                >
+                    Next
+                </button>
             </div>
         </>
     )

@@ -15,7 +15,9 @@ export default function Home({
     allUsers,
     setAllUsers,
     allFollows,
-    setAllFollows
+    setAllFollows,
+    allProfilePictures,
+    setAllProfilePictures
 }){
 
     return(
@@ -28,7 +30,7 @@ export default function Home({
                     setLoggedUser={setLoggedUser}
                 />
                 :
-                !loggedUser.interests ?
+                loggedUser && !loggedUser.interests ?
                     <InitialSignIn 
                         allGenres={allGenres}
                         setAllGenres={setAllGenres}
@@ -38,6 +40,8 @@ export default function Home({
                         allUsers={allUsers}
                         allFollows={allFollows}
                         setAllFollows={setAllFollows}
+                        allProfilePictures={allProfilePictures}
+                        setAllProfilePictures={setAllProfilePictures}
                     />
                 :
                 null

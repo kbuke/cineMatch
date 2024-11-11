@@ -4,6 +4,10 @@ from flask_restful import Resource
 
 from config import app, db, api, os
 
+from werkzeug.utils import secure_filename
+
+from flask import url_for, send_from_directory
+
 from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows
 
 class AllMedia(Resource):
@@ -55,6 +59,33 @@ class AllUsers(Resource):
         except IntegrityError:
             db.session.rollback()
             return {"error": "A database error occurred."}, 500
+
+class UserId(Resource):
+    def get(self, id):
+        user_info = Users.query.filter(Users.id==id).first()
+        if user_info:
+            return user_info.to_dict(), 201
+        return {
+            "error": "user not found"
+        }
+    
+    def patch(self, id):
+        data=request.get_json()
+        user_info = Users.query.filter(Users.id==id).first()
+        if user_info:
+            try:
+                for attr in data:
+                    setattr(user_info, attr, data[attr])
+                db.session.add(user_info)
+                db.session.commit()
+                return make_response(user_info.to_dict(), 202)
+            except ValueError:
+                return{
+                    "error": ["Validation Error"]
+                }, 400
+        return{
+            "error": "User not found"
+        }, 404
         
 
 class Login(Resource):
@@ -138,23 +169,21 @@ class UserFaveGenresId(Resource):
 
 class ProfilePictures(Resource):
     def get(self):
-        profile_pic_info = [picture.to_dict() for picture in UserProfilePicture.query.all()]
+        profile_pic_info = [picture.to_dict() for picture in UserPictures.query.all()]
         return profile_pic_info, 200
+    
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class ProfilePicsId(Resource):
-    def get(self, id):
-        profile_pic_info = UserProfilePicture.query.filter(UserProfilePicture.id == id).first()
-        if profile_pic_info:
-            return make_response(profile_pic_info.to_dict(rules=(profile_pic_rules)), 201)
-        return {
-            "error": "profile pictures not found"
-        }, 404
-    
     def patch(self, id):
-        profile_pic_info = UserProfilePicture.query.filter(UserProfilePicture.id == id).first()
+        profile_pic_info = UserPictures.query.filter(UserPictures.id == id).first()
         if not profile_pic_info:
             return {"error": "Profile picture not found"}, 404
         
+        # Check if a file is in the request
         if "image" not in request.files:
             return {"message": "No file part"}, 400
 
@@ -162,16 +191,18 @@ class ProfilePicsId(Resource):
         if file.filename == "":
             return {"message": "No selected file"}, 400
 
+        # Check file extension
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
 
+            # Update picture_route in database with the new file URL
             file_url = url_for('uploaded_file', filename=filename, _external=True)
             profile_pic_info.picture_route = file_url
 
             db.session.commit()
-            return profile_pic_info.to_dict(rules=(profile_pic_rules)), 200
+            return profile_pic_info.to_dict(), 200
         else:
             return {"message": "File type not allowed"}, 400
 
@@ -227,7 +258,10 @@ api.add_resource(AllMedia, '/media')
 api.add_resource(AllFilms, '/films')
 api.add_resource(AllShows, '/shows')
 api.add_resource(AllGenres, '/genres')
+
 api.add_resource(AllUsers, '/users')
+api.add_resource(UserId, '/users/<int:id>')
+
 api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/check_session')
 

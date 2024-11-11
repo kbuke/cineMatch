@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 
 import FaveGenre from "./Components/1-FaveGenres"
 import FaveActors from "./Components/2-FaveActors"
+import FaveDirector from "./Components/3-FaveDirectors"
+import UploadPic from "./Components/4-UploadPic"
 
 export default function InitialSignIn({
     allGenres,
@@ -11,14 +13,18 @@ export default function InitialSignIn({
     loggedUser,
     allUsers,
     allFollows,
-    setAllFollows
+    setAllFollows,
+    allProfilePictures,
+    setAllProfilePictures
 }){
 
     const [selectedChoice, setSelectedChoice] = useState("Genres")
 
+    console.log(`i HAVE SELECTED ${selectedChoice}`)
+
     return(
         <div
-            style={{backgroundColor: "black", height: "100vh", marginTop: "0px", overflowY: "auto", color: "white"}}
+            style={{backgroundColor: "black", height: "100vh", marginTop: "0px", overflowY: "auto", color: "white", textAlign: "center"}}
         >
             {
                 selectedChoice === "Genres"?
@@ -37,6 +43,19 @@ export default function InitialSignIn({
                         loggedUser={loggedUser}
                         allFollows={allFollows}
                         setAllFollows={setAllFollows}
+                    />
+                :
+                selectedChoice === "Directors"?
+                    <FaveDirector 
+                        setSelectedChoice={setSelectedChoice}
+                    />
+                :
+                selectedChoice === "Profile Picture"?
+                    <UploadPic 
+                        loggedUser={loggedUser}
+                        allUsers={allUsers}
+                        allProfilePictures={allProfilePictures}
+                        setAllProfilePictures={setAllProfilePictures}
                     />
                 :
                 null

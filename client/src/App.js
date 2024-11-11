@@ -17,6 +17,8 @@ function App() {
 
   const [allFollows, setAllFollows] = useState([])
 
+  const [allProfilePictures, setAllProfilePictures] = useState([])
+
   useEffect(() => {
     fetch('/check_session')
     .then((r) => {
@@ -72,6 +74,17 @@ function App() {
     })
   }, [])
 
+  //get all profile pictures
+  useEffect(() => {
+    fetch("/profilepics")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(pics => setAllProfilePictures(pics))
+      }
+    })
+  }, [])
+
 
   return(
     <Home 
@@ -92,6 +105,9 @@ function App() {
 
       allFollows={allFollows}
       setAllFollows={setAllFollows}
+
+      allProfilePictures={allProfilePictures}
+      setAllProfilePictures={setAllProfilePictures}
     />
   )
 }
