@@ -4,7 +4,7 @@ from flask_restful import Resource
 
 from config import app, db, api, os
 
-from models import Media, Movies, TvShows, Users, Genres
+from models import Media, Movies, TvShows, Users, Genres, UsersGenres
 
 class AllMedia(Resource):
     def get(self):
@@ -92,6 +92,30 @@ class CheckSession(Resource):
             if user:
                 return user.to_dict(), 200
         return {"message": "Unauthorized user"}, 401
+
+
+class UserFaveGenres(Resource):
+    def get(self):
+        fave_genres = [fave_genre.to_dict(rules=(
+            "-genre",
+            "-user",
+        )) for fave_genre in UsersGenres.query.all()]
+        return fave_genres, 200
+    
+    def post(self):
+        json=request.get_json()
+        try:
+            new_user_genre = UsersGenres(
+                user_id=json.get("userId"),
+                genre_id=json.get("genreId")
+            )
+            db.session.add(new_user_genre)
+            db.session.commit()
+            return new_user_genre.to_dict(), 201
+        except ValueError as e:
+            return{
+                "error": [str(e)]
+            }, 400
         
 
 api.add_resource(AllMedia, '/media')
@@ -101,6 +125,7 @@ api.add_resource(AllGenres, '/genres')
 api.add_resource(AllUsers, '/users')
 api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/check_session')
+api.add_resource(UserFaveGenres, '/user_genres')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

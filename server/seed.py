@@ -58,7 +58,11 @@ if __name__=="__main__":
             genre="Action",
             image="https://images-r2-1.thebrag.com/var/uploads/2024/05/furiosa-trailer.jpg"
         )
-        db.session.add_all([fantasy, action])
+        sci_fi_genre=Genres(
+            genre="Sci-Fi",
+            image="https://miro.medium.com/v2/1*P1FNZKHzA9w7UHhumCZezg.jpeg"
+        )
+        db.session.add_all([fantasy, action, sci_fi_genre])
         db.session.commit()
 
         print("Seeding film genres")

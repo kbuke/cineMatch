@@ -9,6 +9,10 @@ function App() {
 
   const [loggedUser, setLoggedUser] = useState(false)
 
+  const [allGenres, setAllGenres] = useState([])
+
+  const [userGenres, setUserGenres] = useState([])
+
   useEffect(() => {
     fetch('/check_session')
     .then((r) => {
@@ -19,15 +23,42 @@ function App() {
     })
   }, [])
 
-  console.log(loggedUser)
+  //Get all genres
+  useEffect(() => {
+    fetch("/genres")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(genres => setAllGenres(genres))
+      }
+    })
+  }, [])
+
+  //Get all user genres
+  useEffect(() => {
+    fetch("/user_genres")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(genres => setUserGenres(genres))
+      }
+    })
+  }, [])
 
 
   return(
     <Home 
       Logo={Logo}
       instaLogo={instaLogo}
+
       loggedUser={loggedUser}
       setLoggedUser={setLoggedUser}
+
+      allGenres={allGenres}
+      setAllGenres={setAllGenres}
+
+      userGenres={userGenres}
+      setUserGenres={setUserGenres}
     />
   )
 }

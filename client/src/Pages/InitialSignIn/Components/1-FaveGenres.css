@@ -1,0 +1,32 @@
+.genreContainer{
+    border-radius: 20px;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px;
+    /* width: 600px; */
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+}
+
+
+.genreTitleContainer{
+    display: flex;
+    text-align: center;
+    background-color: 1, 1, 1, 0.6;
+    color: white;
+}
+
+#genreGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+    gap: 20px;
+}
+
+#unSelectedGenre{
+    opacity: 0.5;
+}
