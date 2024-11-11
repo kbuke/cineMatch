@@ -24,7 +24,6 @@ export default function FaveGenre({
     //Add genres to user favourite list
     const handleNewGenre = (e, genreId) => {
         e.preventDefault()
-        console.log("hi")
         const jsonData = {
             userId,
             genreId
@@ -41,6 +40,24 @@ export default function FaveGenre({
             setUserGenres([...userGenres, newGenre])
         })
     }
+
+    //Remove genres from favoruite list
+    const deleteGenre = (e, genreId) => {
+        e.preventDefault()
+        console.log(`user id is ${userId} and gere id is ${genreId}`)
+        console.log(filterUserGenres)
+        const userGenreRelation = filterUserGenres.filter(relation => relation.genre_id===genreId && relation.user_id===userId)
+        console.log(userGenreRelation) 
+        const relationId = userGenreRelation[0].id
+        fetch(`/user_genres/${relationId}`, {
+            method: "DELETE"
+        })
+            .then(r => {
+                if(r.ok){
+                    setUserGenres(genres => genres.filter(genre => genre.id !== relationId))
+                }
+            })
+    }
    
     //Render genres
     const renderGenres = alphabetGenres.map((genre, index) => (
@@ -53,7 +70,8 @@ export default function FaveGenre({
             id={
                 filterUserGenres.some(specificGenre => specificGenre.genre_id === genre.id) ? "selectedGenre" : "unSelectedGenre"
             }
-            onClick={(e) => handleNewGenre(e, genre.id)}
+            // onClick={(e) => handleNewGenre(e, genre.id)}
+            onClick={filterUserGenres.some(specificGenre => specificGenre.genre_id === genre.id) ? (e) => deleteGenre(e, genre.id) : (e) => handleNewGenre(e, genre.id)}
         >
             <div
                 className="genreTitleContainer"

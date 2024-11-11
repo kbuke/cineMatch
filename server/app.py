@@ -116,6 +116,26 @@ class UserFaveGenres(Resource):
             return{
                 "error": [str(e)]
             }, 400
+
+class UserFaveGenresId(Resource):
+    def get(self, id):
+        user_genres = UsersGenres.query.filter(UsersGenres.id==id).first()
+        if user_genres:
+            return make_response(user_genres.to_dict, 201)
+        return {"error": "Relationship not found"}
+    
+    def delete(self, id):
+        user_genre = UsersGenres.query.filter(UsersGenres.id==id).first()
+        if user_genre:
+            db.session.delete(user_genre)
+            db.session.commit()
+            return{
+                "message": "Relationship Deleted"
+            }, 200
+        return {
+            "error": "Relationship not found"
+        }, 404
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -125,7 +145,9 @@ api.add_resource(AllGenres, '/genres')
 api.add_resource(AllUsers, '/users')
 api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/check_session')
+
 api.add_resource(UserFaveGenres, '/user_genres')
+api.add_resource(UserFaveGenresId, '/user_genres/<int:id>')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
