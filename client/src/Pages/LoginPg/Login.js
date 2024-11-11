@@ -5,25 +5,14 @@ import { useState } from "react";
 
 import SignUp from "./Components/2-SignUp";
 import Socials from "./Components/3-Socials";
+import SignIn from "./Components/1-SignIn";
 
 export default function Login({ 
     Logo,
-    instaLogo
+    instaLogo,
+    loggedUser,
+    setLoggedUser
 }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    //create login inputs
-    const loginInputs = (ph, state, type) => {
-        return (
-            <input 
-                placeholder={ph}
-                onChange={(e) => state(e.target.value)}
-                className="loginInput"
-                type={type}
-            />
-        );
-    };
 
     return (
         <div
@@ -42,16 +31,11 @@ export default function Login({
                     alt="cine-match logo"
                     style={{ maxHeight: "100%", maxWidth: "100%" }}
                 />
-                <form id="logInInputs">
-                    {loginInputs("Please enter registered email address.", setEmail, "text")}
-                    {loginInputs("Please enter your password", setPassword, "password")}
-                    <button
-                        type="submit"
-                        style={{ width: "100px", borderRadius: "24px", cursor: "pointer", height:"50px" }}
-                    >
-                        Login
-                    </button>
-                </form>
+
+                <SignIn 
+                    loggedUser={loggedUser}
+                    setLoggedUser={setLoggedUser}
+                />
             </div>
 
             <div

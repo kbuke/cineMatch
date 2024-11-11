@@ -5,15 +5,18 @@ import { useState } from "react"
 export default function Home({
     Logo,
     instaLogo,
+    loggedUser,
+    setLoggedUser
 }){
-    const [loggedIn, setLoggedIn] = useState(false)
 
     return(
         <>
-            {!loggedIn?
+            {!loggedUser?
                 <Login 
                     Logo={Logo}
                     instaLogo={instaLogo}
+                    loggedUser={loggedUser}
+                    setLoggedUser={setLoggedUser}
                 />
                 :
                 null

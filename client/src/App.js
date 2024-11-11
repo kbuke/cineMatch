@@ -7,11 +7,27 @@ import instaLogo from "./assets/insta.png"
 
 function App() {
 
+  const [loggedUser, setLoggedUser] = useState(false)
+
+  useEffect(() => {
+    fetch('/check_session')
+    .then((r) => {
+      if(r.ok){
+        r.json()
+        .then((loggedUser) => setLoggedUser(loggedUser))
+      }
+    })
+  }, [])
+
+  console.log(loggedUser)
+
 
   return(
     <Home 
       Logo={Logo}
       instaLogo={instaLogo}
+      loggedUser={loggedUser}
+      setLoggedUser={setLoggedUser}
     />
   )
 }
