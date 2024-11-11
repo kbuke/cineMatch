@@ -125,6 +125,15 @@ class CheckSession(Resource):
         return {"message": "Unauthorized user"}, 401
 
 
+class LogOut(Resource):
+    def delete(self):
+        user_id = session.get('user_id')
+        if user_id:
+            session.pop('user_id')
+            return {}, 204
+        return {"message": "Unautjorized"}, 401
+
+
 class UserFaveGenres(Resource):
     def get(self):
         fave_genres = [fave_genre.to_dict(rules=(
@@ -264,6 +273,8 @@ api.add_resource(UserId, '/users/<int:id>')
 
 api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/check_session')
+
+api.add_resource(LogOut, '/logout')
 
 api.add_resource(UserFaveGenres, '/user_genres')
 api.add_resource(UserFaveGenresId, '/user_genres/<int:id>')

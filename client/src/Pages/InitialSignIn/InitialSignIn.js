@@ -15,7 +15,8 @@ export default function InitialSignIn({
     allFollows,
     setAllFollows,
     allProfilePictures,
-    setAllProfilePictures
+    setAllProfilePictures,
+    setAllUsers
 }){
 
     const [selectedChoice, setSelectedChoice] = useState("Genres")
@@ -56,6 +57,7 @@ export default function InitialSignIn({
                         allUsers={allUsers}
                         allProfilePictures={allProfilePictures}
                         setAllProfilePictures={setAllProfilePictures}
+                        setAllUsers={setAllUsers}
                     />
                 :
                 null

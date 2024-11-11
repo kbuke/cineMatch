@@ -11,7 +11,9 @@ export default function Login({
     Logo,
     instaLogo,
     loggedUser,
-    setLoggedUser
+    setLoggedUser,
+    allUsers,
+    setAllUsers
 }) {
 
     return (
@@ -48,7 +50,9 @@ export default function Login({
                 }}
                 className="signUpContainer"
             >
-                <SignUp />
+                <SignUp 
+                    setAllUsers={setAllUsers}
+                />
             </div>
 
             <div className="socials">

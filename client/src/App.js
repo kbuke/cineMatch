@@ -27,7 +27,7 @@ function App() {
         .then((loggedUser) => setLoggedUser(loggedUser))
       }
     })
-  }, [])
+  }, [allUsers])
 
   //Get all genres
   useEffect(() => {

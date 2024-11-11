@@ -3,7 +3,9 @@ import "./2-SignUp.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export default function SignUp() {
+export default function SignUp({
+    setAllUsers
+}) {
     const [signUpComplete, setSignUpComplete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [emailInUse, setEmailInUse] = useState(false)
@@ -69,8 +71,15 @@ export default function SignUp() {
                     setLoading(false);
                     if (res.status === 201) {
                         setSignUpComplete(true);
+                        // Fetch all users again after successful signup
+                        fetch("/users")
+                            .then((r) => {
+                                if (r.ok) {
+                                    r.json().then((users) => setAllUsers(users));
+                                }
+                            });
                     } else if (res.status === 400) {
-                        setEmailInUse(true)
+                        setEmailInUse(true);
                     }
                 })
                 .catch(() => {

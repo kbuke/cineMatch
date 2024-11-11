@@ -1,5 +1,6 @@
 import Login from "../LoginPg/Login"
 import InitialSignIn from "../InitialSignIn/InitialSignIn"
+import LoggedHome from "../LoggedInHome/LoggedHome"
 
 import { useState } from "react"
 
@@ -28,6 +29,8 @@ export default function Home({
                     instaLogo={instaLogo}
                     loggedUser={loggedUser}
                     setLoggedUser={setLoggedUser}
+                    allUsers={allUsers}
+                    setAllUsers={setAllUsers}
                 />
                 :
                 loggedUser && !loggedUser.interests ?
@@ -38,10 +41,16 @@ export default function Home({
                         setUserGenres={setUserGenres}
                         loggedUser={loggedUser}
                         allUsers={allUsers}
+                        setAllUsers={setAllUsers}
                         allFollows={allFollows}
                         setAllFollows={setAllFollows}
                         allProfilePictures={allProfilePictures}
                         setAllProfilePictures={setAllProfilePictures}
+                    />
+                :
+                loggedUser && loggedUser.interests ?
+                    <LoggedHome 
+                        setLoggedUser={setLoggedUser}
                     />
                 :
                 null

@@ -4,13 +4,20 @@ export default function UploadPic({
     loggedUser,
     allUsers,
     allProfilePictures,
-    setAllProfilePictures
+    setAllProfilePictures,
+    setAllUsers
 }) {
     const [selectedUser, setSelectedUser] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [newPic, setNewPic] = useState(null); // Holds the File object
     const [preview, setPreview] = useState(null); // Holds the preview URL
+
+
+    console.log(loggedUser)
+    console.log(allUsers)
+
+    
 
     // Set the selected user when allUsers updates
     useEffect(() => {
@@ -46,15 +53,15 @@ export default function UploadPic({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (!newPic) {
             setError("Please select a file to upload");
             return;
         }
-
+    
         const formData = new FormData();
         formData.append("image", newPic);
-
+    
         fetch(`/profilepics/${pictureId}`, {
             method: "PATCH",
             body: formData,
@@ -70,6 +77,25 @@ export default function UploadPic({
                 setAllProfilePictures(prev => 
                     prev.map(pic => pic.id === pictureId ? data : pic)
                 );
+    
+                // Second PATCH request to update interests to true
+                fetch(`/users/${loggedUser.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ interests: true })
+                })
+                .then(response => response.json())
+                .then(userData => {
+                    if (!userData.error) {
+                        // Update the specific user in allUsers with the new interests value
+                        setAllUsers(userData); // Update local selectedUser state
+                    } else {
+                        setError("Failed to update interests");
+                    }
+                })
+                .catch(() => setError("An error occurred while updating interests"));
             }
         })
         .catch(() => setError("An error occurred while uploading"));
