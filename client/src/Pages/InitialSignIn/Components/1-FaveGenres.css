@@ -30,3 +30,17 @@
 #unSelectedGenre{
     opacity: 0.5;
 }
+
+.nextButton{
+    margin-bottom: 20px;
+    display: flex;
+    justify-self: center;
+    cursor: pointer; 
+}
+
+.initialHeaders{
+    font-weight: 300;
+    text-decoration: underline;
+    font-size: 300%;
+    text-align: center;
+}

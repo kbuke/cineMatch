@@ -4,7 +4,7 @@ from flask_restful import Resource
 
 from config import app, db, api, os
 
-from models import Media, Movies, TvShows, Users, Genres, UsersGenres
+from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows
 
 class AllMedia(Resource):
     def get(self):
@@ -136,6 +136,91 @@ class UserFaveGenresId(Resource):
             "error": "Relationship not found"
         }, 404
 
+class ProfilePictures(Resource):
+    def get(self):
+        profile_pic_info = [picture.to_dict() for picture in UserProfilePicture.query.all()]
+        return profile_pic_info, 200
+
+class ProfilePicsId(Resource):
+    def get(self, id):
+        profile_pic_info = UserProfilePicture.query.filter(UserProfilePicture.id == id).first()
+        if profile_pic_info:
+            return make_response(profile_pic_info.to_dict(rules=(profile_pic_rules)), 201)
+        return {
+            "error": "profile pictures not found"
+        }, 404
+    
+    def patch(self, id):
+        profile_pic_info = UserProfilePicture.query.filter(UserProfilePicture.id == id).first()
+        if not profile_pic_info:
+            return {"error": "Profile picture not found"}, 404
+        
+        if "image" not in request.files:
+            return {"message": "No file part"}, 400
+
+        file = request.files["image"]
+        if file.filename == "":
+            return {"message": "No selected file"}, 400
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(file_path)
+
+            file_url = url_for('uploaded_file', filename=filename, _external=True)
+            profile_pic_info.picture_route = file_url
+
+            db.session.commit()
+            return profile_pic_info.to_dict(rules=(profile_pic_rules)), 200
+        else:
+            return {"message": "File type not allowed"}, 400
+
+# Add the route to serve the uploaded files
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+class Followers(Resource):
+    def get(self):
+        follower=[followers.to_dict() for followers in UserFollows.query.all()]
+        return follower, 200
+    
+    def post(self):
+        json=request.get_json()
+        try:
+            new_follower=UserFollows(
+                follower_id=json.get("followerId"),
+                follows_id=json.get("followsId")
+            )
+            # breakpoint()
+            db.session.add(new_follower)
+            db.session.commit()
+            return new_follower.to_dict(), 201
+        except ValueError as e:
+            return{
+                "error": [str(e)]
+            }, 400
+
+class FollowersId(Resource):
+    def get(self, id):
+        followers = UserFollows.query.filter(UserFollows.id==id).first()
+        if followers:
+            return make_response(followers.to_dict(), 201)
+        return {"error": "Relationship not found"}
+    
+    def delete(self, id):
+        followers=UserFollows.query.filter(UserFollows.id==id).first()
+        if followers:
+            db.session.delete(followers)
+            db.session.commit()
+            return{
+                "message": "Follow deleted"
+            }, 200
+        return {
+            "error": "Relationship not found"
+        }, 404
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -148,6 +233,12 @@ api.add_resource(CheckSession, '/check_session')
 
 api.add_resource(UserFaveGenres, '/user_genres')
 api.add_resource(UserFaveGenresId, '/user_genres/<int:id>')
+
+api.add_resource(ProfilePictures, '/profilepics')
+api.add_resource(ProfilePicsId, '/profilepics/<int:id>')
+
+api.add_resource(Followers, '/followers')
+api.add_resource(FollowersId, '/followers/<int:id>')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

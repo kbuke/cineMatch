@@ -13,6 +13,10 @@ function App() {
 
   const [userGenres, setUserGenres] = useState([])
 
+  const [allUsers, setAllUsers] = useState([])
+
+  const [allFollows, setAllFollows] = useState([])
+
   useEffect(() => {
     fetch('/check_session')
     .then((r) => {
@@ -45,6 +49,29 @@ function App() {
     })
   }, [])
 
+  //Get all users
+  useEffect(() => {
+    fetch("/users")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(users => setAllUsers(users))
+      }
+    })
+  }, [])
+  console.log(allUsers)
+
+  //Get all followers
+  useEffect(() => {
+    fetch("/followers")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(followers => setAllFollows(followers))
+      }
+    })
+  }, [])
+
 
   return(
     <Home 
@@ -59,6 +86,12 @@ function App() {
 
       userGenres={userGenres}
       setUserGenres={setUserGenres}
+
+      allUsers={allUsers}
+      setAllUsers={setAllUsers}
+
+      allFollows={allFollows}
+      setAllFollows={setAllFollows}
     />
   )
 }

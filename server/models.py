@@ -155,11 +155,38 @@ class Users(db.Model, SerializerMixin):
 
     #Set up relations (followers/following, genre interests, reviews, watchlist)
     genres=db.relationship("UsersGenres", backref="user")
+    profile_picture = db.relationship("UserPictures", backref="user", uselist=False)
+    
+    # Set up relationships for followers and following
+    followers = db.relationship(
+        "UserFollows",
+        foreign_keys="[UserFollows.follows_id]",
+        backref="followed_user",
+        cascade="all, delete-orphan"
+    )
+    following = db.relationship(
+        "UserFollows",
+        foreign_keys="[UserFollows.follower_id]",
+        backref="follower_user",
+        cascade="all, delete-orphan"
+    )
+
+    # Automatically assign a default profile picture
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not self.profile_picture:
+            self.profile_picture = UserPictures(
+                picture_route="https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+            )
+
 
     serialize_rules=(
         "-genres.user",
         "-genres.genre.user_genres",
         "-genres.genre.film_genres",
+        "-profile_picture.user",
+        "-followers",
+        "-following",
     )
 
 
@@ -243,6 +270,31 @@ class UsersGenres(db.Model, SerializerMixin):
     id=db.Column(db.Integer, primary_key=True)
     user_id=db.Column(db.Integer, db.ForeignKey("users.id"))
     genre_id=db.Column(db.Integer, db.ForeignKey("genres.id"))
+
+
+#Set up profile picture model
+class UserPictures(db.Model, SerializerMixin):
+    __tablename__="userPics"
+
+    id=db.Column(db.Integer, primary_key=True)
+
+    picture_route = db.Column(db.String, nullable=False, server_default="https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg")
+
+    #Add relations
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+
+#Set up a user follows model
+class UserFollows(db.Model, SerializerMixin):
+    __tablename__="follows"
+
+    id=db.Column(db.Integer, primary_key=True)
+
+    follower_id=db.Column(db.Integer, db.ForeignKey("users.id"))
+    follows_id=db.Column(db.Integer, db.ForeignKey("users.id"))
+
+    # Enforce uniqueness to prevent duplicate follows
+    __table_args__ = (db.UniqueConstraint("follower_id", "follows_id", name="unique_follows"),)
 
 
     

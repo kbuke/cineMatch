@@ -11,7 +11,11 @@ export default function Home({
     allGenres,
     setAllGenres,
     userGenres,
-    setUserGenres
+    setUserGenres,
+    allUsers,
+    setAllUsers,
+    allFollows,
+    setAllFollows
 }){
 
     return(
@@ -31,6 +35,9 @@ export default function Home({
                         userGenres={userGenres}
                         setUserGenres={setUserGenres}
                         loggedUser={loggedUser}
+                        allUsers={allUsers}
+                        allFollows={allFollows}
+                        setAllFollows={setAllFollows}
                     />
                 :
                 null

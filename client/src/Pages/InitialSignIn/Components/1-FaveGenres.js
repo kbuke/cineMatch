@@ -1,23 +1,21 @@
 import "./1-FaveGenres.css"
 import { useState, useEffect } from "react"
 
+
 export default function FaveGenre({
     allGenres,
     userGenres,
     setUserGenres,
-    loggedUser
+    loggedUser,
+    setSelectedChoice
 }){
     const [filterUserGenres, setFilterUserGenres] = useState([])
-    console.log(userGenres)
-    console.log(loggedUser)
 
     const userId = loggedUser.id
 
     useEffect(() => {
         setFilterUserGenres(userGenres.filter(details => details.user_id === userId))
     }, [userGenres])
-
-    console.log(filterUserGenres)
 
     const alphabetGenres = allGenres.sort((a, b) => a.genre.localeCompare(b.genre))
 
@@ -44,10 +42,7 @@ export default function FaveGenre({
     //Remove genres from favoruite list
     const deleteGenre = (e, genreId) => {
         e.preventDefault()
-        console.log(`user id is ${userId} and gere id is ${genreId}`)
-        console.log(filterUserGenres)
         const userGenreRelation = filterUserGenres.filter(relation => relation.genre_id===genreId && relation.user_id===userId)
-        console.log(userGenreRelation) 
         const relationId = userGenreRelation[0].id
         fetch(`/user_genres/${relationId}`, {
             method: "DELETE"
@@ -70,7 +65,6 @@ export default function FaveGenre({
             id={
                 filterUserGenres.some(specificGenre => specificGenre.genre_id === genre.id) ? "selectedGenre" : "unSelectedGenre"
             }
-            // onClick={(e) => handleNewGenre(e, genre.id)}
             onClick={filterUserGenres.some(specificGenre => specificGenre.genre_id === genre.id) ? (e) => deleteGenre(e, genre.id) : (e) => handleNewGenre(e, genre.id)}
         >
             <div
@@ -92,16 +86,34 @@ export default function FaveGenre({
     return(
         <>
             <h1
-                style={{color: "white"}}
+                className="initialHeaders"
             >
-                Favourite Genres
+                Genres
             </h1>
+
+            <h3
+                style={{
+                    color: "white",
+                    textAlign: "center",
+                    fontWeight: "200"
+                }}
+            >
+                Please select your favourite genres from the selection below
+            </h3>
 
             <div
                 id="genreGrid"
             >
                 {renderGenres}
             </div>
+
+       
+            <button
+                onClick={() => setSelectedChoice("Actors")}
+            >
+                Next
+            </button>
+
         </>
     )
 }
