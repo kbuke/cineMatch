@@ -60,6 +60,10 @@ export default function InitialSignIn({
                 selectedChoice === "Directors"?
                     <FaveDirector 
                         setSelectedChoice={setSelectedChoice}
+                        allUsers={allUsers}
+                        loggedUser={loggedUser}
+                        allFollows={allFollows}
+                        setAllFollows={setAllFollows}
                     />
                 :
                 selectedChoice === "Profile Picture"?
