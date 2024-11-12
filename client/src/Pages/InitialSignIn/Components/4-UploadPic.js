@@ -78,7 +78,6 @@ export default function UploadPic({
                     prev.map(pic => pic.id === pictureId ? data : pic)
                 );
     
-                // Second PATCH request to update interests to true
                 fetch(`/users/${loggedUser.id}`, {
                     method: "PATCH",
                     headers: {
@@ -89,8 +88,15 @@ export default function UploadPic({
                 .then(response => response.json())
                 .then(userData => {
                     if (!userData.error) {
-                        // Update the specific user in allUsers with the new interests value
-                        setAllUsers(userData); // Update local selectedUser state
+                        // Find the updated user and replace only that user in the allUsers array
+                        setAllUsers(prevUsers => {
+                            if (Array.isArray(prevUsers)) {
+                                return prevUsers.map(user => 
+                                    user.id === loggedUser.id ? userData : user
+                                );
+                            }
+                            return prevUsers; // Keep it unchanged if not an array
+                        });
                     } else {
                         setError("Failed to update interests");
                     }
@@ -98,7 +104,6 @@ export default function UploadPic({
                 .catch(() => setError("An error occurred while updating interests"));
             }
         })
-        .catch(() => setError("An error occurred while uploading"));
     };
 
     return (

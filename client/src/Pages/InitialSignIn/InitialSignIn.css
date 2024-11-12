@@ -1,0 +1,17 @@
+.logoImg{
+    height: 200px;
+    width: 200px;
+    margin-top: 20px;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    border-radius: 50%;
+    color: white;
+    background-color: rgba(72, 70, 70, 0.8);
+    justify-self: center;
+}
+
+.logo{
+    max-height: 100%;
+    max-width: 100%;
+}

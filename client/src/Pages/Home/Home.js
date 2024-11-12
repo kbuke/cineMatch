@@ -46,6 +46,7 @@ export default function Home({
                         setAllFollows={setAllFollows}
                         allProfilePictures={allProfilePictures}
                         setAllProfilePictures={setAllProfilePictures}
+                        Logo={Logo}
                     />
                 :
                 loggedUser && loggedUser.interests ?

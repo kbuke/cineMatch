@@ -74,7 +74,19 @@ if __name__=="__main__":
             genre="Chick Flick",
             image="https://lh6.googleusercontent.com/proxy/ODMYF5Y8ay5V2SLBD0KvgtWHHTMFLccpZYStjRdsB0glRu-pB9azVp_T-zXOBrBP8C7WpC9dINPIe1s5_sUi_OJ5tP1fLEGXbtwWZEi8Wtazj_drVIhkVwhU1JrHcCqEAnSA4Md6LII"
         )
-        db.session.add_all([fantasy, action, sci_fi_genre, animation, animation, anime, chick_flick])
+        thriller=Genres(
+            genre="Thriller",
+            image="https://images.bauerhosting.com/legacy/media/6026/a037/4ef6/302f/a23a/5c22/sotl-3.jpg?ar=16%3A9&fit=crop&crop=top&auto=format&w=1440&q=80"
+        )
+        comedy=Genres(
+            genre="Comedy",
+            image="https://m.media-amazon.com/images/M/MV5BMjEwOTE1MDA5MV5BMl5BanBnXkFtZTcwMjUwMzIyMw@@._V1_.jpg"
+        )
+        war=Genres(
+            genre="War",
+            image="https://ychef.files.bbci.co.uk/1280x720/p0j2dzgq.jpg"
+        )
+        db.session.add_all([fantasy, war, thriller, action, sci_fi_genre, animation, animation, anime, comedy, chick_flick])
         db.session.commit()
 
         print("Seeding film genres")

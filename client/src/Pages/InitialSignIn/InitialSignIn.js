@@ -5,6 +5,8 @@ import FaveActors from "./Components/2-FaveActors"
 import FaveDirector from "./Components/3-FaveDirectors"
 import UploadPic from "./Components/4-UploadPic"
 
+import "./InitialSignIn.css"
+
 export default function InitialSignIn({
     allGenres,
     setAllGenres,
@@ -16,7 +18,8 @@ export default function InitialSignIn({
     setAllFollows,
     allProfilePictures,
     setAllProfilePictures,
-    setAllUsers
+    setAllUsers,
+    Logo
 }){
 
     const [selectedChoice, setSelectedChoice] = useState("Genres")
@@ -27,6 +30,14 @@ export default function InitialSignIn({
         <div
             style={{backgroundColor: "black", height: "100vh", marginTop: "0px", overflowY: "auto", color: "white", textAlign: "center"}}
         >
+            <div
+                className="logoImg"
+            >
+                <img 
+                    src={Logo}
+                    className="logo"
+                />
+            </div>
             {
                 selectedChoice === "Genres"?
                     <FaveGenre 
