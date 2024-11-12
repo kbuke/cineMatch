@@ -20,7 +20,7 @@ export default function Home({
     allProfilePictures,
     setAllProfilePictures
 }){
-
+    console.log(loggedUser)
     return(
         <>
             {!loggedUser?

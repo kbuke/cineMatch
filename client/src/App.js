@@ -61,7 +61,7 @@ function App() {
       }
     })
   }, [])
-  console.log(allUsers)
+
 
   //Get all followers
   useEffect(() => {

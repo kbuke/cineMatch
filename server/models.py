@@ -185,8 +185,10 @@ class Users(db.Model, SerializerMixin):
         "-genres.genre.user_genres",
         "-genres.genre.film_genres",
         "-profile_picture.user",
-        "-followers",
-        "-following",
+        "-followers.followed_user",
+        "-followers.follower_user",
+        "-following.follower_user",
+        "-following.followed_user",
     )
 
 
