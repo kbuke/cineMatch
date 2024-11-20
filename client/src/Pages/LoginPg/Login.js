@@ -1,8 +1,6 @@
 import loginWallpaper from "/Users/kaanbuke/Documents/codingProjects/cineMatch/client/src/assets/LoginWallpaper.webp";
 import "./Login.css";
 
-import { useState } from "react";
-
 import SignUp from "./Components/2-SignUp";
 import Socials from "./Components/3-Socials";
 import SignIn from "./Components/1-SignIn";
@@ -19,13 +17,6 @@ export default function Login({
     return (
         <div
             className="gridContainer"
-            style={{
-                display: "grid",
-                gridTemplateRows: "10% 80% 10%",  // sets row heights
-                gridTemplateColumns: "1fr",       // sets single column
-                height: "100vh",
-                overflow: "hidden"                  // makes container take full viewport height
-            }}
         >
             <div id="logInHeader">
                 <img 

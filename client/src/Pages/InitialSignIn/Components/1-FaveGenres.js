@@ -19,6 +19,8 @@ export default function FaveGenre({
 
     const alphabetGenres = allGenres.sort((a, b) => a.genre.localeCompare(b.genre))
 
+    console.log(allGenres)
+
     //Add genres to user favourite list
     const handleNewGenre = (e, genreId) => {
         e.preventDefault()

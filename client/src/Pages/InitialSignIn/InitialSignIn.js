@@ -24,11 +24,10 @@ export default function InitialSignIn({
 
     const [selectedChoice, setSelectedChoice] = useState("Genres")
 
-    console.log(`i HAVE SELECTED ${selectedChoice}`)
 
     return(
         <div
-            style={{backgroundColor: "black", height: "100vh", marginTop: "0px", overflowY: "auto", color: "white", textAlign: "center"}}
+            style={{backgroundColor: "black", height: "100vh", marginTop: "0px", overflowY: "auto", color: "white", textAlign: "center", width: "100%"}}
         >
             <div
                 className="logoImg"

@@ -1,38 +1,35 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Ensure the app container fills the full height */
+.app-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* Top navigation bar */
+#horizontalNavBar {
+  flex-shrink: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Container for VerticalNav and Home */
+.content-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Adjust VerticalNav to keep its desired width */
+#unSelectVerticalNavBar,
+#selectVerticalNav {
+  flex-shrink: 0;
+  width: 100px;
+}
+
+#selectVerticalNav {
+  width: 130px;
+}
+
+/* Home component fills the remaining space */
+.Pages-Home-Home {
+  flex: 1;
+  overflow-y: auto;
 }

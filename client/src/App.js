@@ -1,23 +1,20 @@
-
 import { useEffect, useState } from 'react';
 import './App.css';
 import Home from './Pages/Home/Home';
-import Logo from "./assets/Cine-Match.png"
-import instaLogo from "./assets/insta.png"
+import Logo from "./assets/Cine-Match.png";
+import instaLogo from "./assets/insta.png";
+import VerticalNav from './Pages/NavBar/VerticalNav';
+import HorizontalNav from './Pages/NavBar/HorizontalNav';
 
 function App() {
+  const [loggedUser, setLoggedUser] = useState(false);
+  const [allGenres, setAllGenres] = useState([]);
+  const [userGenres, setUserGenres] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const [allFollows, setAllFollows] = useState([]);
+  const [allProfilePictures, setAllProfilePictures] = useState([]);
 
-  const [loggedUser, setLoggedUser] = useState(false)
-
-  const [allGenres, setAllGenres] = useState([])
-
-  const [userGenres, setUserGenres] = useState([])
-
-  const [allUsers, setAllUsers] = useState([])
-
-  const [allFollows, setAllFollows] = useState([])
-
-  const [allProfilePictures, setAllProfilePictures] = useState([])
+  const [chosenNav, setChosenNav] = useState("Home")
 
   useEffect(() => {
     fetch('/check_session')
@@ -85,31 +82,37 @@ function App() {
     })
   }, [])
 
+  return (
+    <div className="app-container">
+      <HorizontalNav loggedUser={loggedUser} Logo={Logo} />
 
-  return(
-    <Home 
-      Logo={Logo}
-      instaLogo={instaLogo}
-
-      loggedUser={loggedUser}
-      setLoggedUser={setLoggedUser}
-
-      allGenres={allGenres}
-      setAllGenres={setAllGenres}
-
-      userGenres={userGenres}
-      setUserGenres={setUserGenres}
-
-      allUsers={allUsers}
-      setAllUsers={setAllUsers}
-
-      allFollows={allFollows}
-      setAllFollows={setAllFollows}
-
-      allProfilePictures={allProfilePictures}
-      setAllProfilePictures={setAllProfilePictures}
-    />
-  )
+      <div className="content-container">
+        <VerticalNav 
+          loggedUser={loggedUser} 
+          chosenNav={chosenNav}
+          setChosenNav={setChosenNav}
+        />
+        
+        <Home
+          Logo={Logo}
+          instaLogo={instaLogo}
+          loggedUser={loggedUser}
+          setLoggedUser={setLoggedUser}
+          allGenres={allGenres}
+          setAllGenres={setAllGenres}
+          userGenres={userGenres}
+          setUserGenres={setUserGenres}
+          allUsers={allUsers}
+          setAllUsers={setAllUsers}
+          allFollows={allFollows}
+          setAllFollows={setAllFollows}
+          allProfilePictures={allProfilePictures}
+          setAllProfilePictures={setAllProfilePictures}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default App;
+

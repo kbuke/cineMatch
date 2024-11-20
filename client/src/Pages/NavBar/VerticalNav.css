@@ -1,0 +1,46 @@
+#unSelectVerticalNavBar{
+    height: 90vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    overflow: hidden;
+}
+
+.followNames{
+    font-weight: 200;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.navImgContainer{
+    margin-top: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.navImg{
+    height: 30px;
+    width: 100px;
+    color: white;
+    margin-bottom: 0px;
+}
+
+.navText{
+    color: white;
+    margin-top: 0px;
+}
+
+#chosenNav{
+    background-color: rgb(97, 91, 91);
+    border-radius: 24px;
+}
+
+#navProfilePic{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-self: center;
+    margin-top: 40px;
+}
