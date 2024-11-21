@@ -95,22 +95,6 @@ function App() {
           setChosenNav={setChosenNav}
         />
         
-        {/* <Home
-          Logo={Logo}
-          instaLogo={instaLogo}
-          loggedUser={loggedUser}
-          setLoggedUser={setLoggedUser}
-          allGenres={allGenres}
-          setAllGenres={setAllGenres}
-          userGenres={userGenres}
-          setUserGenres={setUserGenres}
-          allUsers={allUsers}
-          setAllUsers={setAllUsers}
-          allFollows={allFollows}
-          setAllFollows={setAllFollows}
-          allProfilePictures={allProfilePictures}
-          setAllProfilePictures={setAllProfilePictures}
-        /> */}
         <Outlet 
           context={{
             Logo: Logo,

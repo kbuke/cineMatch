@@ -20,7 +20,12 @@ import { useState } from "react";
 export default function Admin(){
     //Set state
     const [update, setUpdate] = useState(false)
+
+    const [selectedId, setSelectedId] = useState()
+
     const [addNewGenre, setAddNewGenre] = useState(false)
+    const [editGenre, setEditGenre] = useState(false)
+    const [deleteGenre, setDeleteGenre] = useState(false)
 
     //Handle new genre
     const handleGenre = () => {
@@ -51,11 +56,23 @@ export default function Admin(){
 
             <h2>Registered Genres ({allGenres.length})</h2>
 
-            {update && addNewGenre ?
+            {update ?
                 <NewGenre 
                     allGenres={allGenres}
                     setAllGenres={setAllGenres}
+
+                    addNewGenre={addNewGenre}
                     setAddNewGenre={setAddNewGenre}
+
+                    editGenre={editGenre}
+                    setEditGenre={setEditGenre}
+
+                    deleteGenre={deleteGenre}
+                    setDeleteGenre={setDeleteGenre}
+
+                    setUpdate={setUpdate}
+
+                    selectedId={selectedId}
                 />
                 :
                 null
@@ -66,7 +83,10 @@ export default function Admin(){
                 setAllGenres={setAllGenres}
                 EditButton={editButton}
                 DeleteButton={deleteButton}
-                // AddButton={addButton}
+                setEditGenre={setEditGenre}
+                setSelectedId={setSelectedId}
+                setDeleteGenre={setDeleteGenre}
+                setUpdate={setUpdate}
             />
 
             <AddButton 

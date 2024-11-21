@@ -47,6 +47,25 @@ class AllGenres(Resource):
         except ValueError as e:
             return {"error": [str(e)]}, 400
 
+class GenreId(Resource):
+    def get(self, id):
+        genres = Genres.query.filter(Genres.id==id).first()
+        if genres:
+            return make_response(genres.to_dict(), 201)
+        return {"error": "Genre not found"}
+    
+    def delete(self, id):
+        genres = Genres.query.filter(Genres.id==id).first()
+        if genres:
+            db.session.delete(genres)
+            db.session.commit()
+            return{
+                "message": "Genre deleted"
+            }, 200 
+        return {
+            "error": "Genre not found"
+        }, 404
+
 class AllUsers(Resource):
     def get(self):
         users = [user.to_dict() for user in Users.query.all()]
@@ -282,7 +301,9 @@ class FollowersId(Resource):
 api.add_resource(AllMedia, '/media')
 api.add_resource(AllFilms, '/films')
 api.add_resource(AllShows, '/shows')
+
 api.add_resource(AllGenres, '/genres')
+api.add_resource(GenreId, '/genres/<int:id>')
 
 api.add_resource(AllUsers, '/users')
 api.add_resource(UserId, '/users/<int:id>')
