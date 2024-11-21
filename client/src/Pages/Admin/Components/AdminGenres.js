@@ -9,7 +9,9 @@ export default function AdminGenres({
     setEditGenre,
     setSelectedId,
     setDeleteGenre,
-    setUpdate
+    setUpdate,
+    setCurrentGenre,
+    setCurrentGenreImg
 }) {
     const [adminGenres, setAdminGenres] = useState([]);
     
@@ -22,10 +24,12 @@ export default function AdminGenres({
     }, [allGenres]);
 
     //Handle Edit genre
-    const handleEdit = (genreId) => {
+    const handleEdit = (genreId, genre, genreImg) => {
         setEditGenre(true)
         setSelectedId(genreId)
         setUpdate(true)
+        setCurrentGenre(genre)
+        setCurrentGenreImg(genreImg)
     }
 
     //Handle delete genre
@@ -56,7 +60,7 @@ export default function AdminGenres({
             <div className="adminGenreOption">
                 <EditButton 
                     className="adminOptionButton"
-                    onClick={() => handleEdit(genre.id)}
+                    onClick={() => handleEdit(genre.id, genre.genre, genre.image)}
                 />   
 
                 <DeleteButton 

@@ -16,7 +16,13 @@ export default function NewGenre({
 
     setUpdate,
 
-    selectedId
+    selectedId,
+
+    currentGenre,
+    setCurrentGenre,
+
+    currentGenreImg,
+    setCurrentGenreImg
  }) {
     console.log(`I am CREATING a new genre: ${addNewGenre}, I am EDITING a genre: ${editGenre}, or I am DELETING a genre: :${deleteGenre}`)
 
@@ -50,6 +56,7 @@ export default function NewGenre({
                 setAllGenres([...allGenres, newGenre])
                 setAddNewGenre(false)
             })
+            .then(setUpdate(false))
             .catch(error => console.error("Error adding new genre"))
     }
 
@@ -65,11 +72,40 @@ export default function NewGenre({
                 }
             })
             .then(setUpdate(false))
+            .then(setDeleteGenre(false))
     }
 
     //EDIT genre
     const handleEdit = (e) => {
         e.preventDefault()
+        console.log(`Editing genre ${selectedId}`)
+        fetch(`/genres/${selectedId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                genre: currentGenre,
+                image: currentGenreImg
+            })
+        })
+        .then((r) => {
+            if(r.ok) {
+                return r.json()
+            } else {
+                console.error("Failed to update genre")
+                return null
+            }
+        })
+        .then((newGenreInfo) => {
+            if(newGenreInfo){
+                setAllGenres(allGenres.map(oldGenres => 
+                    oldGenres.id === newGenreInfo.id ? newGenreInfo : oldGenres
+                ))
+            }
+        })
+        .then(setUpdate(false))
+        .catch(error => console.error("Error during patch request:", error))
     }
     
     return (
@@ -99,7 +135,7 @@ export default function NewGenre({
                             <h2>Add a New Genre</h2>
                         :
                         editGenre ?
-                            <h2>Edit Genre</h2>
+                            <h2>Edit {currentGenre}</h2>
                         :
                             <h2>Delete Genre</h2>
                     }
@@ -111,7 +147,19 @@ export default function NewGenre({
                                 <input 
                                     type="text" 
                                     placeholder="Enter genre name" 
-                                    onChange={(e) => setNewGenre(e.target.value)}
+                                    // onChange={(e) => setNewGenre(e.target.value)}
+                                    onChange={
+                                        editGenre ?
+                                            (e) => setCurrentGenre(e.target.value)
+                                        :
+                                            (e) => setNewGenre(e.target.value)
+                                    }
+                                    value={
+                                        editGenre ? 
+                                            currentGenre
+                                        :
+                                            null   
+                                    }
                                 />
                             </label>
 
@@ -120,7 +168,19 @@ export default function NewGenre({
                                 <input 
                                     type="text" 
                                     placeholder="Enter image URL" 
-                                    onChange={(e) => setNewGenreImg(e.target.value)}
+                                    // onChange={(e) => setNewGenreImg(e.target.value)}
+                                    onChange={
+                                        editGenre ? 
+                                            (e) => setCurrentGenreImg(e.target.value)
+                                        :
+                                            (e) => setNewGenreImg(e.target.value)
+                                    }
+                                    value={
+                                        editGenre?
+                                            currentGenreImg
+                                        :
+                                            null
+                                    }
                                 />
                             </label>
                         </>

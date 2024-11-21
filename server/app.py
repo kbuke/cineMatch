@@ -65,6 +65,24 @@ class GenreId(Resource):
         return {
             "error": "Genre not found"
         }, 404
+    
+    def patch(self, id):
+        data=request.get_json()
+        genre_info = Genres.query.filter(Genres.id==id).first()
+        if genre_info:
+            try:
+                for attr in data:
+                    setattr(genre_info, attr, data[attr])
+                db.session.add(genre_info)
+                db.session.commit()
+                return make_response(genre_info.to_dict(), 202)
+            except ValueError:
+                return{
+                    "error": ["Validation Error"]
+                }, 400
+        return {
+            "error": "Genre not found"
+        }, 404
 
 class AllUsers(Resource):
     def get(self):

@@ -22,6 +22,8 @@ export default function Admin(){
     const [update, setUpdate] = useState(false)
 
     const [selectedId, setSelectedId] = useState()
+    const [currentGenre, setCurrentGenre] = useState()
+    const [currentGenreImg, setCurrentGenreImg] = useState()
 
     const [addNewGenre, setAddNewGenre] = useState(false)
     const [editGenre, setEditGenre] = useState(false)
@@ -73,6 +75,12 @@ export default function Admin(){
                     setUpdate={setUpdate}
 
                     selectedId={selectedId}
+
+                    currentGenre={currentGenre}
+                    setCurrentGenre={setCurrentGenre}
+
+                    currentGenreImg={currentGenreImg}
+                    setCurrentGenreImg={setCurrentGenreImg}
                 />
                 :
                 null
@@ -87,6 +95,8 @@ export default function Admin(){
                 setSelectedId={setSelectedId}
                 setDeleteGenre={setDeleteGenre}
                 setUpdate={setUpdate}
+                setCurrentGenre={setCurrentGenre}
+                setCurrentGenreImg={setCurrentGenreImg}
             />
 
             <AddButton 
