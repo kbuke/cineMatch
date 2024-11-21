@@ -14,9 +14,16 @@
 }
 
 .navImgContainer{
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
     cursor: pointer;
+    color: white;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    align-content: center;
 }
 
 .navImg{
@@ -24,6 +31,7 @@
     width: 100px;
     color: white;
     margin-bottom: 0px;
+    display: flex;
 }
 
 .navText{

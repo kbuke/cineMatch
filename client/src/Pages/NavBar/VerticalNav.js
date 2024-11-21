@@ -7,6 +7,10 @@ import { FaTv } from "react-icons/fa";
 import { FaTheaterMasks } from "react-icons/fa";
 import { GiDirectorChair } from "react-icons/gi";
 import { FaUsers } from "react-icons/fa";
+import { RiAdminFill } from "react-icons/ri";
+
+import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 
 export default function VerticalNav({ 
     loggedUser,
@@ -19,12 +23,13 @@ export default function VerticalNav({
     const profileId = loggedUser.id
 
     // Render containers for links
-    const navLinkContainer = (IconComponent, text) => {
+    const navLinkContainer = (IconComponent, text, link) => {
         return (
-            <div 
+            <NavLink 
                 className="navImgContainer"
                 onClick={() => setChosenNav(text)}
                 id={chosenNav === text ? "chosenNav" : ""}
+                to={link}
             >
                 <IconComponent 
                     className="navImg"  
@@ -35,7 +40,7 @@ export default function VerticalNav({
                 >
                     {text}
                 </p>
-            </div>
+            </NavLink>
         );
     };
 
@@ -57,6 +62,8 @@ export default function VerticalNav({
                 {navLinkContainer(GiDirectorChair, "Directors")}
 
                 {navLinkContainer(FaUsers, "Users")}
+
+                {loggedUser.user_type === "Admin" ? navLinkContainer(RiAdminFill, "Admin", "admin") : null}
 
                 <img 
                     src={profilePic}

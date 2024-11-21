@@ -1,3 +1,4 @@
+import Admin from "../Admin/Admin"
 
 
 
@@ -5,6 +6,7 @@ export default function LoggedHome({
     setLoggedUser
 }){
     const logOut = () => {
+        console.log("signing out")
         fetch("/logout", {
             method: "DELETE"
         })
@@ -15,8 +17,12 @@ export default function LoggedHome({
         })
     }
     return(
-        <button
-            onClick={logOut}
-        >Logout</button>
+        <>
+            <button
+                onClick={() => logOut()}
+            >
+                LogOut
+            </button>
+        </>
     )
 }

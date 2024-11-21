@@ -6,14 +6,20 @@ import Socials from "./Components/3-Socials";
 import SignIn from "./Components/1-SignIn";
 
 export default function Login({ 
-    Logo,
-    instaLogo,
-    loggedUser,
-    setLoggedUser,
-    allUsers,
-    setAllUsers
+    // Logo,
+    // instaLogo,
+    // loggedUser,
+    // setLoggedUser,
+    // allUsers,
+    // setAllUsers
+    appData,
+    loggedUser
 }) {
-
+    const Logo = appData.Logo
+    const instaLogo = appData.instaLogo
+    const setLoggedUser = appData.setLoggedUser
+    const allUsers = appData.allUsers
+    const setAllUsers = appData.setAllUsers
     return (
         <div
             className="gridContainer"

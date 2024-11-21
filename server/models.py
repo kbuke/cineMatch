@@ -200,7 +200,7 @@ class Users(db.Model, SerializerMixin):
     }
 
     #Validate account types
-    ALLOWED_USERS=("Viewer", "Actor", "Director")
+    ALLOWED_USERS=("Viewer", "Actor", "Director", "Admin")
 
     @validates("user_type")
     def validate_user_type(self, key, account_type):

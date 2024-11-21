@@ -114,7 +114,7 @@ if __name__=="__main__":
             email=os.environ.get("kaan_email"),
             first_name="Kaan",
             last_name="Buke",
-            user_type="Viewer",
+            user_type="Admin",
             city="London"
         )
         kaan_user.password_hash=os.environ.get("kaan_password")

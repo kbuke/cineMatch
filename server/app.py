@@ -30,6 +30,22 @@ class AllGenres(Resource):
     def get(self):
         genre=[genres.to_dict() for genres in Genres.query.all()]
         return genre, 200
+    
+    def post(self):
+        json=request.get_json()
+        try:
+            if Genres.query.filter_by(genre=json.get("newGenre")).first():
+                return {"error": "Genre already exists"}, 400 
+            
+            new_genre = Genres(
+                genre=json.get("newGenre"),
+                image=json.get("newGenreImg")
+            )
+            db.session.add(new_genre)
+            db.session.commit()
+            return new_genre.to_dict(), 201
+        except ValueError as e:
+            return {"error": [str(e)]}, 400
 
 class AllUsers(Resource):
     def get(self):

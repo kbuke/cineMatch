@@ -1,0 +1,18 @@
+#adminPgContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+#adminAddButton{
+    height: 100px;
+    width: 100px;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+}
+
+#adminComment{
+    text-align: center;
+    margin-top: 0px;
+    text-decoration: underline;
+}

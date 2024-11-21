@@ -6,6 +6,8 @@ import instaLogo from "./assets/insta.png";
 import VerticalNav from './Pages/NavBar/VerticalNav';
 import HorizontalNav from './Pages/NavBar/HorizontalNav';
 
+import { Outlet } from 'react-router-dom';
+
 function App() {
   const [loggedUser, setLoggedUser] = useState(false);
   const [allGenres, setAllGenres] = useState([]);
@@ -93,7 +95,7 @@ function App() {
           setChosenNav={setChosenNav}
         />
         
-        <Home
+        {/* <Home
           Logo={Logo}
           instaLogo={instaLogo}
           loggedUser={loggedUser}
@@ -108,6 +110,30 @@ function App() {
           setAllFollows={setAllFollows}
           allProfilePictures={allProfilePictures}
           setAllProfilePictures={setAllProfilePictures}
+        /> */}
+        <Outlet 
+          context={{
+            Logo: Logo,
+            instaLogo: instaLogo,
+
+            loggedUser: loggedUser,
+            setLoggedUser: setLoggedUser,
+
+            allGenres: allGenres,
+            setAllGenres: setAllGenres,
+
+            userGenres: userGenres,
+            setUserGenres: setUserGenres,
+
+            allUsers: allUsers,
+            setAllUsers: setAllUsers,
+
+            allFollows: allFollows,
+            setAllFollows: setAllFollows,
+
+            allProfilePictures: allProfilePictures,
+            setAllProfilePictures: setAllProfilePictures
+          }}
         />
       </div>
     </div>

@@ -8,19 +8,33 @@ import UploadPic from "./Components/4-UploadPic"
 import "./InitialSignIn.css"
 
 export default function InitialSignIn({
-    allGenres,
-    setAllGenres,
-    userGenres,
-    setUserGenres,
-    loggedUser,
-    allUsers,
-    allFollows,
-    setAllFollows,
-    allProfilePictures,
-    setAllProfilePictures,
-    setAllUsers,
-    Logo
+    // allGenres,
+    // setAllGenres,
+    // userGenres,
+    // setUserGenres,
+    // loggedUser,
+    // allUsers,
+    // allFollows,
+    // setAllFollows,
+    // allProfilePictures,
+    // setAllProfilePictures,
+    // setAllUsers,
+    // Logo
+    appData,
+    loggedUser
 }){
+
+    const allGenres = appData.allGenres
+    const setAllGenres = appData.setAllGenres
+    const userGenres = appData.userGenres
+    const setUserGenres = appData.setUserGenres
+    const allUsers = appData.allUsers
+    const allFollows = appData.allFollows
+    const setAllFollows = appData.setAllFollows
+    const allProfilePictures = appData.allProfilePictures
+    const setAllProfilePictures = appData.setAllProfilePictures
+    const setAllUsers = appData.setAllUsers
+    const Logo = appData.Logo
 
     const [selectedChoice, setSelectedChoice] = useState("Genres")
 
