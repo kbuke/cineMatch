@@ -110,15 +110,15 @@ export default function NewGenre({
     
     return (
         <div
-            id="newGenreOverlay"
+            id="overlay"
             onClick={() => handleClose()} // Close when clicking outside the form
         >
             <div
-                id="newGenreContainer"
+                id="newContainer"
                 onClick={(e) => e.stopPropagation()} // Prevent click events from propagating to the overlay
             >
                 <form 
-                    id="newGenreForm"
+                    id="newForm"
                     onSubmit={
                         addNewGenre ?
                             (e) => handleNewGenre(e)
@@ -187,7 +187,7 @@ export default function NewGenre({
                         :
                         null
                     }
-                    <div id="newGenreButtons">
+                    <div id="newButtons">
                         <button
                             type="button"
                             onClick={() => handleClose()} // Close the modal

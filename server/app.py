@@ -10,6 +10,8 @@ from flask import url_for, send_from_directory
 
 from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows
 
+from datetime import datetime
+
 class AllMedia(Resource):
     def get(self):
         all_media=[media.to_dict() for media in Media.query.all()]
@@ -20,6 +22,27 @@ class AllFilms(Resource):
     def get(self):
         film=[films.to_dict() for films in Movies.query.all()]
         return film, 200
+
+    def post(self):
+        json=request.get_json()
+        try:
+            new_film = Movies(
+                name=json.get("newFilmTitle"),
+                sub_title=json.get("newFilmSubTitle"),
+                poster=json.get("newFilmPoster"),
+                release_date=datetime.strptime(json.get("newFilmReleaseDate"), '%Y-%m-%d'),
+                summary=json.get("newFilmSummary"),
+                media_type=json.get("mediaType"),
+                background_image=json.get("newfilmBackground"), 
+                origin_country=json.get("filmCountry"),
+                run_time_hours=int(json.get("filmHour")),
+                run_time_minutes=int(json.get("filmMinute"))
+            )
+            db.session.add(new_film)
+            db.session.commit()
+            return new_film.to_dict(), 201 
+        except ValueError as e:
+            return{"error": [str(e)]}, 400
 
 class AllShows(Resource):
     def get(self):

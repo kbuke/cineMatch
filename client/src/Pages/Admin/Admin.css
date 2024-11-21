@@ -16,3 +16,10 @@
     margin-top: 0px;
     text-decoration: underline;
 }
+
+#adminGenreContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

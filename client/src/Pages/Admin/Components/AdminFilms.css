@@ -1,0 +1,25 @@
+#adminFilmReel{
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    gap: 20px;
+}
+
+#adminFilmContainer{
+    overflow: hidden;
+    border-radius: 24px;
+    height: 600px;
+    width: 300px;
+    display: grid;
+    background-color: black;
+    color: white;
+    text-align: center;
+    grid-template-rows: 75% 25%;
+}
+
+#adminFilmPoster{
+    height: 100%;
+    width: 100%;
+}
+

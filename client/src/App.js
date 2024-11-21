@@ -15,6 +15,7 @@ function App() {
   const [allUsers, setAllUsers] = useState([]);
   const [allFollows, setAllFollows] = useState([]);
   const [allProfilePictures, setAllProfilePictures] = useState([]);
+  const [allFilms, setAllFilms] = useState([])
 
   const [chosenNav, setChosenNav] = useState("Home")
 
@@ -35,6 +36,17 @@ function App() {
       if(r.ok){
         r.json()
         .then(genres => setAllGenres(genres))
+      }
+    })
+  }, [])
+
+  //Get all films
+  useEffect(() => {
+    fetch("films")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(films => setAllFilms(films))
       }
     })
   }, [])
@@ -116,7 +128,10 @@ function App() {
             setAllFollows: setAllFollows,
 
             allProfilePictures: allProfilePictures,
-            setAllProfilePictures: setAllProfilePictures
+            setAllProfilePictures: setAllProfilePictures,
+
+            allFilms: allFilms,
+            setAllFilms: setAllFilms
           }}
         />
       </div>

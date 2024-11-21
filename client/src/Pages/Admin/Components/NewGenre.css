@@ -1,5 +1,5 @@
 /* NewGenre.css */
-#newGenreOverlay {
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     z-index: 1000;
 }
 
-#newGenreContainer {
+#newContainer {
     background-color: white;
     border-radius: 10px;
     padding: 20px;
@@ -21,16 +21,16 @@
     max-width: 400px;
 }
 
-#newGenreForm h2 {
+#newForm h2 {
     margin-bottom: 15px;
 }
 
-#newGenreForm label {
+#newForm label {
     display: block;
     margin-bottom: 10px;
 }
 
-#newGenreForm input {
+#newForm input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -39,24 +39,24 @@
     border-radius: 4px;
 }
 
-#newGenreButtons {
+#newButtons {
     display: flex;
     justify-content: space-between;
 }
 
-#newGenreButtons button {
+#newButtons button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-#newGenreButtons button:first-child {
+#newButtons button:first-child {
     background-color: #f44336;
     color: white;
 }
 
-#newGenreButtons button:last-child {
+#newButtons button:last-child {
     background-color: #4caf50;
     color: white;
 }

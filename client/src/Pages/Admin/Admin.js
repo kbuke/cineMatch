@@ -14,6 +14,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 import AdminGenres from "./Components/AdminGenres";
 import NewGenre from "./Components/NewGenre";
+import AdminFilms from "./Components/AdminFilms";
 
 import { useState } from "react";
 
@@ -48,6 +49,10 @@ export default function Admin(){
     const allGenres = appData.allGenres
     const setAllGenres = appData.setAllGenres
 
+    //Hanlde films
+    const allFilms = appData.allFilms
+    const setAllFilms = appData.setAllFilms
+
 
     return(
         <div
@@ -56,58 +61,77 @@ export default function Admin(){
         >
             <h1>Admin Page, Welcome!</h1>
 
-            <h2>Registered Genres ({allGenres.length})</h2>
+            <div
+                id="adGenreContainer"
+                style={{
+                    justifyContent: "center",
+                    alignContent: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    borderBottom: "solid"
+                }}
+            >
+                <h2>Registered Genres ({allGenres.length})</h2>
 
-            {update ?
-                <NewGenre 
+                {update ?
+                    <NewGenre 
+                        allGenres={allGenres}
+                        setAllGenres={setAllGenres}
+
+                        addNewGenre={addNewGenre}
+                        setAddNewGenre={setAddNewGenre}
+
+                        editGenre={editGenre}
+                        setEditGenre={setEditGenre}
+
+                        deleteGenre={deleteGenre}
+                        setDeleteGenre={setDeleteGenre}
+
+                        setUpdate={setUpdate}
+
+                        selectedId={selectedId}
+
+                        currentGenre={currentGenre}
+                        setCurrentGenre={setCurrentGenre}
+
+                        currentGenreImg={currentGenreImg}
+                        setCurrentGenreImg={setCurrentGenreImg}
+                    />
+                    :
+                    null
+                }
+
+                <AdminGenres 
                     allGenres={allGenres}
                     setAllGenres={setAllGenres}
-
-                    addNewGenre={addNewGenre}
-                    setAddNewGenre={setAddNewGenre}
-
-                    editGenre={editGenre}
+                    EditButton={editButton}
+                    DeleteButton={deleteButton}
                     setEditGenre={setEditGenre}
-
-                    deleteGenre={deleteGenre}
+                    setSelectedId={setSelectedId}
                     setDeleteGenre={setDeleteGenre}
-
                     setUpdate={setUpdate}
-
-                    selectedId={selectedId}
-
-                    currentGenre={currentGenre}
                     setCurrentGenre={setCurrentGenre}
-
-                    currentGenreImg={currentGenreImg}
                     setCurrentGenreImg={setCurrentGenreImg}
                 />
-                :
-                null
-            }
 
-            <AdminGenres 
-                allGenres={allGenres}
-                setAllGenres={setAllGenres}
-                EditButton={editButton}
-                DeleteButton={deleteButton}
-                setEditGenre={setEditGenre}
-                setSelectedId={setSelectedId}
-                setDeleteGenre={setDeleteGenre}
-                setUpdate={setUpdate}
-                setCurrentGenre={setCurrentGenre}
-                setCurrentGenreImg={setCurrentGenreImg}
-            />
+                <AddButton 
+                    id="adminAddButton"
+                    onClick={() => handleGenre()}
+                />
+                <p
+                    id="adminComment"
+                >
+                    Add New Genre
+                </p>
+            </div>
 
-            <AddButton 
-                id="adminAddButton"
-                onClick={() => handleGenre()}
-            />
-            <p
-                id="adminComment"
-            >
-                Add New Genre
-            </p>
+            <div>
+                <AdminFilms 
+                    allFilms={allFilms}
+                    setAllFilms={setAllFilms}
+                    AddButton={AddButton}
+                />
+            </div>
         </div>
     )
 }
