@@ -125,13 +125,13 @@ export default function Admin(){
                 </p>
             </div>
 
-            <div>
+            <>
                 <AdminFilms 
                     allFilms={allFilms}
                     setAllFilms={setAllFilms}
                     AddButton={AddButton}
                 />
-            </div>
+            </>
         </div>
     )
 }

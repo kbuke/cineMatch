@@ -1,12 +1,13 @@
-#adminFilmReel{
+#adminFilmReel {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
     margin-bottom: 10px;
     gap: 20px;
+    width: 100%; /* Ensure the reel spans parent */
 }
 
-#adminFilmContainer{
+#adminFilmContainer {
     overflow: hidden;
     border-radius: 24px;
     height: 600px;
@@ -16,10 +17,20 @@
     color: white;
     text-align: center;
     grid-template-rows: 75% 25%;
+    flex: 0 0 auto; /* Prevent shrinking */
 }
 
-#adminFilmPoster{
+#adminFilmPoster {
     height: 100%;
     width: 100%;
+    object-fit: cover; /* Ensure the poster scales correctly */
 }
+
+#filterAdminFilmInput{
+    border: none;
+    border-bottom: solid;
+    margin-bottom: 10px;
+    font-size: 200%;
+}
+
 
