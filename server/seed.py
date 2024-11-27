@@ -96,7 +96,7 @@ if __name__=="__main__":
         )
         lotr1_action=MediaGenres(
             media_id=1,
-            genre_id=1
+            genre_id=2
         )
         got_fantasy=MediaGenres(
             media_id=2,

@@ -1,0 +1,28 @@
+#filmGenreReel{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    gap: 10px;
+    overflow-x: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#selectedFilmGenre,
+#unSelectedFilmGenre{
+    text-align: center;
+    width: 100px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#unSelectedFilmGenre{
+    background-color: red;
+}
+
+#selectedFilmGenre{
+    background-color: green;
+}

@@ -1,0 +1,62 @@
+#adminFilmInfo {
+    width: 100%;
+    height: 600px;
+    overflow-y: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0px;
+    display: flex;
+    align-items: center; /* Center vertically */
+}
+
+#adminSpecificFilmGrid {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-right: 10px;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    gap: 100px;
+}
+
+#adminFilmTitleInfoContainer {
+    background-color: rgba(1, 1, 1, 0.6);
+    color: white;
+    text-align: center;
+    width: 30%;
+    justify-self: center;
+    border-radius: 20px;
+}
+
+.adminSpecificFilmTitle{
+    margin-bottom: 0px;
+}
+
+.adminSpecificFilmSubTitle{
+    margin-top: 0px;
+}
+
+#adminFilmExtraInfo{
+    background-color: rgba(1, 1, 1, 0.6);
+    color: white;
+    border-radius: 20px;
+    width: 70%;
+    width: 800px;
+}
+
+#adminFilmSummary{
+    text-align: center;
+    font-weight: 300;
+}
+
+#adminFilmGenres{
+    background-color: rgba(1, 1, 1, 0.6);
+    color: white;
+    border-radius: 20px;
+    width: 800px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}

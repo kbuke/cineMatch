@@ -23,3 +23,9 @@
     justify-content: center;
     align-items: center;
 }
+
+#adminFilmPgHeader{
+    text-align: center;
+    font-weight: 200;
+    font-size: 250%;
+}

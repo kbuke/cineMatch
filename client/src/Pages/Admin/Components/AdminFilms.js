@@ -3,15 +3,23 @@ import { useEffect, useState } from "react";
 import "./AdminFilms.css";
 
 import AdminAddFilm from "./AdminAddFilm";
+import SpecificFilmInfo from "./SpecificFilmInfo";
+
+import { FaChevronDown } from "react-icons/fa";
+import { FaChevronUp } from "react-icons/fa";
 
 export default function AdminFilms({
     allFilms,
     setAllFilms,
     AddButton,
+    allGenres,
+    allFilmGenres,
+    setAllFilmGenres
 }) {
     const [registeredFilms, setRegisteredFilms] = useState([]);
     const [addFilm, setAddFilm] = useState(false);
     const [filterFilms, setFilterFilms] = useState("");
+    const [selectFilmId, setSelectFilmId] = useState()
 
     useEffect(() => {
         if (filterFilms.trim() === "") {
@@ -61,6 +69,18 @@ export default function AdminFilms({
                     <h5 style={{ marginTop: "0px" }}>
                         ({film.release_date.slice(0, 4)})
                     </h5>
+
+                    {film.id === selectFilmId ?
+                        <FaChevronUp 
+                            id="adminCloseFilmInfo"
+                            onClick={() => setSelectFilmId()}
+                        />
+                        :
+                        <FaChevronDown 
+                            id="adminOpenFilmInfo"
+                            onClick={() => setSelectFilmId(film.id)}
+                        />
+                    }
                 </div>
             </div>
         ))
@@ -96,6 +116,18 @@ export default function AdminFilms({
             />
 
             <div id="adminFilmReel">{renderFilms}</div>
+
+            {selectFilmId ?
+                <SpecificFilmInfo 
+                    selectFilmId={selectFilmId}
+                    allFilms={allFilms}
+                    allGenres={allGenres}
+                    allFilmGenres={allFilmGenres}
+                    setAllFilmGenres={setAllFilmGenres}
+                />
+                :
+                null
+            }
 
             <AddButton
                 id="adminAddButton"

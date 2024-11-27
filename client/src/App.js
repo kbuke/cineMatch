@@ -16,6 +16,7 @@ function App() {
   const [allFollows, setAllFollows] = useState([]);
   const [allProfilePictures, setAllProfilePictures] = useState([]);
   const [allFilms, setAllFilms] = useState([])
+  const [allFilmGenres, setAllFilmGenres] = useState([])
 
   const [chosenNav, setChosenNav] = useState("Home")
 
@@ -96,6 +97,17 @@ function App() {
     })
   }, [])
 
+  //get all film genres
+  useEffect(() => {
+    fetch("/film_genres")
+    .then(r => {
+      if(r.ok){
+        r.json()
+        .then(filmGenres => setAllFilmGenres(filmGenres))
+      }
+    })
+  }, [])
+
   return (
     <div className="app-container">
       <HorizontalNav loggedUser={loggedUser} Logo={Logo} />
@@ -131,7 +143,10 @@ function App() {
             setAllProfilePictures: setAllProfilePictures,
 
             allFilms: allFilms,
-            setAllFilms: setAllFilms
+            setAllFilms: setAllFilms,
+
+            allFilmGenres: allFilmGenres,
+            setAllFilmGenres: setAllFilmGenres
           }}
         />
       </div>

@@ -53,13 +53,21 @@ export default function Admin(){
     const allFilms = appData.allFilms
     const setAllFilms = appData.setAllFilms
 
+    //Handle film genres
+    const allFilmGenres = appData.allFilmGenres
+    const setAllFilmGenres = appData.setAllFilmGenres
+
 
     return(
         <div
             id="adminPgContainer"
             style={{marginLeft: "10px", marginRight: "10px", overflowY: 'auto'}}
         >
-            <h1>Admin Page, Welcome!</h1>
+            <h1
+                id="adminFilmPgHeader"
+            >
+                Admin Page, Welcome!
+            </h1>
 
             <div
                 id="adGenreContainer"
@@ -130,6 +138,9 @@ export default function Admin(){
                     allFilms={allFilms}
                     setAllFilms={setAllFilms}
                     AddButton={AddButton}
+                    allGenres={allGenres}
+                    allFilmGenres={allFilmGenres}
+                    setAllFilmGenres={setAllFilmGenres}
                 />
             </>
         </div>

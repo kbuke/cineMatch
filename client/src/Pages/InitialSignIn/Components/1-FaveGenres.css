@@ -10,6 +10,7 @@
     align-items: center;
     display: flex;
     cursor: pointer;
+    border: solid;
 }
 
 
@@ -25,6 +26,7 @@
     grid-template-columns: repeat(3, 1fr);
     padding: 20px;
     gap: 20px;
+
 }
 
 #unSelectedGenre{

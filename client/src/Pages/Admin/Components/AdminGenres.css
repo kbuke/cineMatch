@@ -50,3 +50,23 @@
     background-color: white;
 }
 
+#adminOpenFilmInfo,
+#adminCloseFilmInfo{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+}
+
+#adminOpenFilmInfo{
+    background-color: rgb(10, 91, 2);
+}
+
+#adminCloseFilmInfo{
+    background-color: rgb(202, 2, 2);
+}
+

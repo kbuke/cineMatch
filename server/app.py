@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 from flask import url_for, send_from_directory
 
-from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows
+from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows, MediaGenres
 
 from datetime import datetime
 
@@ -337,6 +337,27 @@ class FollowersId(Resource):
             "error": "Relationship not found"
         }, 404
 
+class FilmGenres(Resource):
+    def get(self):
+        all_film_genres=[genres.to_dict(rules=(
+            "-media.type",
+            "-genre.user_genres",
+        )) for genres in MediaGenres.query.all()]
+        return all_film_genres, 200 
+    
+    def post(self):
+        json=request.get_json()
+        try: 
+            new_genre = MediaGenres(
+                media_id=json.get("selectFilmId"),
+                genre_id=json.get("genreId")
+            )
+            db.session.add(new_genre)
+            db.session.commit()
+            return new_genre.to_dict(), 201
+        except ValueError as e:
+            return{"error": [str(e)]}, 400
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -362,6 +383,8 @@ api.add_resource(ProfilePicsId, '/profilepics/<int:id>')
 
 api.add_resource(Followers, '/followers')
 api.add_resource(FollowersId, '/followers/<int:id>')
+
+api.add_resource(FilmGenres, '/film_genres')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
