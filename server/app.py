@@ -358,6 +358,25 @@ class FilmGenres(Resource):
         except ValueError as e:
             return{"error": [str(e)]}, 400
 
+class FilmGenresId(Resource):
+    def get(self):
+        films_genres=MediaGenres.query.filter(MediaGenres.id==id).first()
+        if films_genres:
+            return make_response(films_genres.to_dict(), 201)
+        return {"error": "Films genre not found"}
+    
+    def delete(self, id):
+        films_genres=MediaGenres.query.filter(MediaGenres.id==id).first()
+        if films_genres:
+            db.session.delete(films_genres)
+            db.session.commit()
+            return{
+                "message": "Films genre deleted"
+            }, 200
+        return {
+            "error": "Films genre not found"
+        }, 404
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -385,6 +404,7 @@ api.add_resource(Followers, '/followers')
 api.add_resource(FollowersId, '/followers/<int:id>')
 
 api.add_resource(FilmGenres, '/film_genres')
+api.add_resource(FilmGenresId, '/film_genres/<int:id>')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

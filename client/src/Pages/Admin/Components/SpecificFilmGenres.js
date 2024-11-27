@@ -24,6 +24,16 @@ export default function SpecificFilmGenres({
     const handleDeleteGenre = (e, genreId) => {
         e.preventDefault()
         console.log(`I am deleting genre ${genreId}`)
+        const filmsGenreId = filmsGenres.filter(film => film.genre_id === genreId)[0].id
+        console.log(filmsGenreId)
+        fetch(`/film_genres/${filmsGenreId}`, {
+            method: "DELETE"
+        })
+            .then(r => {
+                if(r.ok){
+                    setAllFilmGenres(genres => genres.filter(genre => genre.id !== filmsGenreId))
+                }
+            })
     }
 
     //Add new genre to a film
