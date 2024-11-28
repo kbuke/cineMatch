@@ -16,7 +16,8 @@ export default function AdminFilms({
     allFilmGenres,
     setAllFilmGenres,
     filmCasts,
-    setFilmCasts
+    setFilmCasts,
+    allUsers
 }) {
     const [registeredFilms, setRegisteredFilms] = useState([]);
     const [addFilm, setAddFilm] = useState(false);
@@ -128,6 +129,7 @@ export default function AdminFilms({
                     setAllFilmGenres={setAllFilmGenres}
                     filmCasts={filmCasts}
                     setFilmCasts={setFilmCasts}
+                    allUsers={allUsers}
                 />
                 :
                 null

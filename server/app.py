@@ -390,6 +390,20 @@ class FilmCast(Resource):
             "-user.followers",
         )) for casts in MediaCast.query.all()]
         return film_casts, 200
+    
+    def post(self):
+        json=request.get_json()
+        try:
+            new_cast=MediaCast(
+                media_id=json.get("selectFilmId"),
+                actor_id=json.get("actorId"),
+                billing=json.get("actorBilling")
+            )
+            db.session.add(new_cast)
+            db.session.commit()
+            return new_cast.to_dict(), 201
+        except ValueError as e:
+            return{"error": [str(e)]}, 400
 
         
 

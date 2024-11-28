@@ -8,12 +8,19 @@ import { CiEdit } from "react-icons/ci";
 //Delete button
 import { MdDelete } from "react-icons/md";
 
+//Add button
+import { IoIosAddCircleOutline } from "react-icons/io";
+import AddCastMember from "./AddCastMember";
+
 export default function SpecificFilmCast({
     filmCasts,
     setFilmCasts,
-    selectFilmId
+    selectFilmId,
+    allUsers
 }){
     const [specificFilmCast, setSpecificFilmCast] = useState([])
+    const [addCast, setAddCast] = useState(false)
+    
 
     useEffect(() => (
         setSpecificFilmCast(filmCasts.filter(filmCast => filmCast.media_id === selectFilmId))
@@ -51,17 +58,34 @@ export default function SpecificFilmCast({
 
     return(
         <div>
-            <h2
-                style={{textAlign: "center"}}
-            >
-                Cast
-            </h2>
+            {addCast ?
+                <AddCastMember 
+                    selectFilmId={selectFilmId}
+                    filmCasts={filmCasts}
+                    setFilmCasts={setFilmCasts}
+                    setAddCast={setAddCast}
+                    allUsers={allUsers}
+                />
+                :   
+                <>
+                    <h2
+                        style={{textAlign: "center"}}
+                    >
+                        Cast
+                    </h2>
 
-            <div
-                id="adminFilmCastReel"
-            >
-                {renderCast}
-            </div>
+                    <div
+                        id="adminFilmCastReel"
+                    >
+                        <IoIosAddCircleOutline 
+                            id="adminAddCast"
+                            onClick={() => setAddCast(true)}
+                        />
+
+                        {renderCast}
+                    </div>
+                </>
+            }
         </div>
     )
 }

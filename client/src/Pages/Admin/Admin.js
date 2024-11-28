@@ -61,6 +61,9 @@ export default function Admin(){
     const filmCasts = appData.filmCasts
     const setFilmCasts = appData.setFilmCasts
 
+    //Handle Users
+    const allUsers = appData.allUsers
+
 
     return(
         <div
@@ -147,6 +150,7 @@ export default function Admin(){
                     setAllFilmGenres={setAllFilmGenres}
                     filmCasts={filmCasts}
                     setFilmCasts={setFilmCasts}
+                    allUsers={allUsers}
                 />
             </>
         </div>

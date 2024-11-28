@@ -4,6 +4,7 @@
     overflow-x: auto;
     margin-left: 5px;
     margin-right: 5px;
+    gap: 20px;
 }
 
 #adminFilmCastCard{
@@ -40,4 +41,11 @@
     color: white;
     border: solid;
     cursor: pointer;
+}
+
+#adminAddCast{
+    height: 100px;
+    width: 100px;
+    justify-self: center;
+    align-self: center;
 }

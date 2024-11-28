@@ -12,7 +12,8 @@ export default function SpecificFilmInfo({
     allFilmGenres,
     setAllFilmGenres,
     filmCasts,
-    setFilmCasts
+    setFilmCasts,
+    allUsers
 }){
     const [filterSpecificFilm, setFilterSpecificFilm] = useState();
 
@@ -96,6 +97,7 @@ export default function SpecificFilmInfo({
                             selectFilmId={selectFilmId}
                             filmCasts={filmCasts}
                             setFilmCasts={setFilmCasts}
+                            allUsers={allUsers}
                         />
                     </div>
                 </div>
