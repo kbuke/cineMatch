@@ -10,7 +10,9 @@ import { MdDelete } from "react-icons/md";
 
 //Add button
 import { IoIosAddCircleOutline } from "react-icons/io";
+
 import AddCastMember from "./AddCastMember";
+import DeleteCastMember from "./DeleteCastMember";
 
 export default function SpecificFilmCast({
     filmCasts,
@@ -20,6 +22,9 @@ export default function SpecificFilmCast({
 }){
     const [specificFilmCast, setSpecificFilmCast] = useState([])
     const [addCast, setAddCast] = useState(false)
+    const [deleteCast, setDeleteCast] = useState(false)
+    const [selectedCastId, setSelectedCastId] = useState()
+    const [selectedActorId, setSelectedActorId] = useState()
     
 
     useEffect(() => (
@@ -27,6 +32,13 @@ export default function SpecificFilmCast({
     ), [filmCasts])
 
     console.log(specificFilmCast)
+
+    //Handle delete logic
+    const handleDelete = (castId, actorId) => {
+        setSelectedCastId(castId)
+        setSelectedActorId(actorId)
+        setDeleteCast(true)
+    }
 
     const renderCast = specificFilmCast.map((cast, index) => (
         <div
@@ -51,6 +63,7 @@ export default function SpecificFilmCast({
 
                 <MdDelete 
                     className="adminCastOptionGridButtons"
+                    onClick={() => handleDelete(cast.id, cast.actor_id)}
                 />
             </div>
         </div>
@@ -66,7 +79,16 @@ export default function SpecificFilmCast({
                     setAddCast={setAddCast}
                     allUsers={allUsers}
                 />
-                :   
+            :
+            deleteCast ?
+                <DeleteCastMember 
+                    selectedActorId={selectedActorId}
+                    selectFilmId={selectFilmId}
+                    setDeleteCast={setDeleteCast}
+                    selectedCastId={selectedCastId}
+                    setFilmCasts={setFilmCasts}
+                />
+            :
                 <>
                     <h2
                         style={{textAlign: "center"}}

@@ -405,6 +405,25 @@ class FilmCast(Resource):
         except ValueError as e:
             return{"error": [str(e)]}, 400
 
+class FilmCastId(Resource):
+    def get(self, id):
+        film_casts = MediaCast.query.filter(MediaCast.id==id).first()
+        if film_casts:
+            return make_response(film_casts.to_dict(), 201)
+        return {"error": "Film cast member not found"}
+    
+    def delete(self, id):
+        film_casts = MediaCast.query.filter(MediaCast.id==id).first()
+        if film_casts:
+            db.session.delete(film_casts)
+            db.session.commit()
+            return{
+                "message": "Film Cast Member Deleted"
+            }, 200
+        return {
+            "error": "Film Cast Member not found"
+        }, 404
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -435,6 +454,7 @@ api.add_resource(FilmGenres, '/film_genres')
 api.add_resource(FilmGenresId, '/film_genres/<int:id>')
 
 api.add_resource(FilmCast, '/film_cast')
+api.add_resource(FilmCastId, '/film_cast/<int:id>')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
