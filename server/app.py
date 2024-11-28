@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 from flask import url_for, send_from_directory
 
-from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows, MediaGenres
+from models import Media, Movies, TvShows, Users, Genres, UsersGenres, UserPictures, UserFollows, MediaGenres, MediaCast
 
 from datetime import datetime
 
@@ -377,6 +377,20 @@ class FilmGenresId(Resource):
             "error": "Films genre not found"
         }, 404
 
+class FilmCast(Resource):
+    def get(self):
+        film_casts=[casts.to_dict(rules=(
+            "-media.run_time_hours",
+            "-media.name",
+            "-media.type",
+            "-media.summary",
+            "-media.film_genres",
+            "-followers",
+            "-user.genres",
+            "-user.followers",
+        )) for casts in MediaCast.query.all()]
+        return film_casts, 200
+
         
 
 api.add_resource(AllMedia, '/media')
@@ -405,6 +419,8 @@ api.add_resource(FollowersId, '/followers/<int:id>')
 
 api.add_resource(FilmGenres, '/film_genres')
 api.add_resource(FilmGenresId, '/film_genres/<int:id>')
+
+api.add_resource(FilmCast, '/film_cast')
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

@@ -23,11 +23,14 @@ class Media(db.Model, SerializerMixin):
 
     #Set up relations (genres, screenshots, studio, actors, directors)
     film_genres=db.relationship("MediaGenres", backref="media")
+    film_cast=db.relationship("MediaCast", backref="media")
 
     serialize_rules=(
         "-film_genres.media",
         "-film_genres.genre.film_genres",
         "-film_genres.genre.user_genres",
+        "-film_cast.media",
+        "-film_cast.user",
     )
 
     type = db.Column(db.String(50))
@@ -156,6 +159,7 @@ class Users(db.Model, SerializerMixin):
     #Set up relations (followers/following, genre interests, reviews, watchlist)
     genres=db.relationship("UsersGenres", backref="user")
     profile_picture = db.relationship("UserPictures", backref="user", uselist=False)
+    film_cast=db.relationship("MediaCast", backref="user")
     
     # Set up relationships for followers and following
     followers = db.relationship(
@@ -189,6 +193,8 @@ class Users(db.Model, SerializerMixin):
         "-followers.follower_user",
         "-following.follower_user",
         "-following.followed_user.following",
+        "-film_cast.user",
+        "-film_cast.media",
     )
 
 
@@ -297,6 +303,16 @@ class UserFollows(db.Model, SerializerMixin):
 
     # Enforce uniqueness to prevent duplicate follows
     __table_args__ = (db.UniqueConstraint("follower_id", "follows_id", name="unique_follows"),)
+
+
+#Set up a table for films cast
+class MediaCast(db.Model, SerializerMixin):
+    __tablename__="media_cast"
+
+    id=db.Column(db.Integer, primary_key=True)
+    media_id=db.Column(db.Integer, db.ForeignKey("media_types.id"))
+    actor_id=db.Column(db.Integer, db.ForeignKey("users.id"))
+    billing=db.Column(db.Integer, nullable=False)
 
 
     

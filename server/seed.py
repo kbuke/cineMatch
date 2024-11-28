@@ -1,4 +1,4 @@
-from models import Media, Movies, TvShows, Genres, MediaGenres, Users, UsersGenres
+from models import Media, Movies, TvShows, Genres, MediaGenres, Users, UsersGenres, MediaCast
 
 from app import app 
 from config import db 
@@ -140,5 +140,14 @@ if __name__=="__main__":
             genre_id=2
         )
         db.session.add_all([kaan_fave_action, kaan_fave_fantasy])
+        db.session.commit()
+
+        print("Seeding film cast")
+        lotr_anya=MediaCast(
+            media_id=1,
+            actor_id=2,
+            billing=1
+        )
+        db.session.add_all([lotr_anya])
         db.session.commit()
         

@@ -57,6 +57,10 @@ export default function Admin(){
     const allFilmGenres = appData.allFilmGenres
     const setAllFilmGenres = appData.setAllFilmGenres
 
+    //Hanlde film casts 
+    const filmCasts = appData.filmCasts
+    const setFilmCasts = appData.setFilmCasts
+
 
     return(
         <div
@@ -141,6 +145,8 @@ export default function Admin(){
                     allGenres={allGenres}
                     allFilmGenres={allFilmGenres}
                     setAllFilmGenres={setAllFilmGenres}
+                    filmCasts={filmCasts}
+                    setFilmCasts={setFilmCasts}
                 />
             </>
         </div>

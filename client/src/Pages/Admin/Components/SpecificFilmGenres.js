@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import "./SpecificFilmGenres.css"
-import { json } from "react-router-dom";
 
 export default function SpecificFilmGenres({
     selectFilmId,
@@ -11,7 +10,6 @@ export default function SpecificFilmGenres({
 }){
     const [filmsGenres, setFilmsGenres] = useState([])
     const [everyGenre, setEveryGenre] = useState([])
-    const [selectedGenreId, setSelectedGenreId] = useState()
 
     useEffect(() => (
         setEveryGenre(allGenres)

@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import "./SpecificFilmInfo.css";
 
 import SpecificFilmGenres from "./SpecificFilmGenres";
+import SpecificFilmCast from "./SpecificFilmCast";
 
 export default function SpecificFilmInfo({
     selectFilmId,
     allFilms,
     allGenres,
     allFilmGenres,
-    setAllFilmGenres
+    setAllFilmGenres,
+    filmCasts,
+    setFilmCasts
 }){
     const [filterSpecificFilm, setFilterSpecificFilm] = useState();
 
@@ -83,6 +86,16 @@ export default function SpecificFilmInfo({
                             allGenres={allGenres}
                             allFilmGenres={allFilmGenres}
                             setAllFilmGenres={setAllFilmGenres}
+                        />
+                    </div>
+
+                    <div
+                        id="adminFilmCast"
+                    >
+                        <SpecificFilmCast 
+                            selectFilmId={selectFilmId}
+                            filmCasts={filmCasts}
+                            setFilmCasts={setFilmCasts}
                         />
                     </div>
                 </div>
