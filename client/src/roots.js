@@ -5,6 +5,7 @@ import FaveGenre from "./Pages/InitialSignIn/Components/1-FaveGenres";
 import FaveActors from "./Pages/InitialSignIn/Components/2-FaveActors";
 import Admin from "./Pages/Admin/Admin";
 import LoggedHome from "./Pages/LoggedInHome/LoggedHome";
+import Actors from "./Pages/Actors/Actors";
 
 const routes = [
     {
@@ -36,6 +37,10 @@ const routes = [
             {
                 path: "/admin",
                 element: <Admin />
+            },
+            {
+                path: "/actors",
+                element: <Actors />
             }
         ]
     }
