@@ -9,7 +9,6 @@ import { GiDirectorChair } from "react-icons/gi";
 import { FaUsers } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 
-import Actors from "../Actors/Actors";
 
 import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom";
