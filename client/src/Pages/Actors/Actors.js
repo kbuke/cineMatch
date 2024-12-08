@@ -37,6 +37,7 @@ export default function Actors(){
                 allFollows={allFollows}
                 allActors={allActors}
                 loggedUser={loggedUser}
+                setAllFollows={setAllFollows}
             />
         </div>
     )

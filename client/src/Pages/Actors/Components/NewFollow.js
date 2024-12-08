@@ -1,23 +1,32 @@
 
 
 export default function NewFollow({
-    unfollowName,
-    setUnfollowActor,
-    followId,
-    setAllFollows
+    followsId,
+    actorName,
+    setFollowNewActor,
+    followerId,
+    setAllFollows,
+    allFollows
 }){
-
-    const handleDelete = (e) => {
+    const handleNewFollow = (e) => {
         e.preventDefault()
-        fetch(`/followers/${followId}`, {
-            method: "DELETE"
+        const jsonData = {
+            followerId,
+            followsId
+        }   
+        fetch('/followers', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonData)
         })
-            .then(r => {
-                if(r.ok){
-                    setAllFollows(followers => followers.filter(follower => follower.id !== followId))
-                }
+            .then(r => r.json())
+            .then(newFollow => {
+                setAllFollows([...allFollows, newFollow])
+                setFollowNewActor(false)
             })
-            .then(setUnfollowActor(false))
+            .catch(error => console.error("Error adding new follow"))
     }
 
     return(
@@ -26,19 +35,20 @@ export default function NewFollow({
         >
             <div
                 id="newContainer"
+                onClick={(e) => e.stopPropagation()}
             >
                 <form
                     id="newForm"
-                    onSubmit={(e) => handleDelete(e)}
+                    onSubmit={(e) => handleNewFollow(e)}
                 >
-                    <h1>Unfollow {unfollowName}?</h1>
+                    <h2>Follow {actorName}</h2>
 
                     <div
                         id="newButtons"
                     >
                         <button
                             type="button"
-                            onClick={() => setUnfollowActor(false)}
+                            onClick={() => setFollowNewActor(false)}
                         >
                             Cancel
                         </button>
@@ -46,7 +56,7 @@ export default function NewFollow({
                         <button
                             type="submit"
                         >
-                            Unsubscribe
+                            Subscribe
                         </button>
                     </div>
                 </form>

@@ -4,7 +4,7 @@ import "./FollowedActors.css"
 
 import { RiUserUnfollowFill } from "react-icons/ri";
 
-import NewFollow from "./NewFollow";
+import UnfollowActor from "./Unfollow";
 
 export default function FollowedActors({
     loggedUser,
@@ -77,7 +77,7 @@ export default function FollowedActors({
             </div>
 
             {unfollowActor ?
-                <NewFollow 
+                <UnfollowActor 
                     unfollowName={unfollowName}
                     followId={followId}
                     setUnfollowActor={setUnfollowActor}

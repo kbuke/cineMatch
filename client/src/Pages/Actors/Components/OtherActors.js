@@ -4,8 +4,13 @@ import { RiUserFollowLine } from "react-icons/ri";
 
 import "./OtherActors.css"
 
-export default function OtherActors({ allFollows, allActors, loggedUser }) {
+import NewFollow from "./NewFollow";
+
+export default function OtherActors({ allFollows, allActors, loggedUser, setAllFollows }) {
     const [unFollowedActors, setUnFollowedActors] = useState([]);
+    const [followNewActor, setFollowNewActor] = useState(false)
+    const [chosenActor, setChosenActor] = useState()
+    const [actorName, setActorName] = useState()
 
     useEffect(() => {
         // Extract the IDs of the actors that the loggedUser follows
@@ -18,6 +23,12 @@ export default function OtherActors({ allFollows, allActors, loggedUser }) {
 
         setUnFollowedActors(notFollowedActors);
     }, [allFollows, allActors, loggedUser]);
+
+    const handleFollow = (actorId, actorName) => {
+        setFollowNewActor(true)
+        setChosenActor(actorId)
+        setActorName(actorName)
+    }
 
     console.log(unFollowedActors);
 
@@ -42,6 +53,7 @@ export default function OtherActors({ allFollows, allActors, loggedUser }) {
                 <div
                     id="followUnfollowActorButton"
                     className="followButton"
+                    onClick={() => handleFollow(actor.id, `${actor.first_name} ${actor.last_name}`)}
                 >
                     <RiUserFollowLine 
                         id="followUnfollowButton"
@@ -59,9 +71,24 @@ export default function OtherActors({ allFollows, allActors, loggedUser }) {
 
     return (
         <div>
+            {followNewActor ?
+                <NewFollow 
+                    followsId={chosenActor}
+                    actorName={actorName}
+                    setFollowNewActor={setFollowNewActor}
+                    followerId={loggedUser.id}
+                    setAllFollows={setAllFollows}
+                    allFollows={allFollows}
+                />
+                :
+                null
+            }
+
             <h2>Other Actors to Follow</h2>
 
-            <div>
+            <div
+                id="unfollowedActorGrid"
+            >
                 {actorCard}
             </div>
         </div>
