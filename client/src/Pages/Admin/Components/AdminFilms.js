@@ -8,6 +8,8 @@ import SpecificFilmInfo from "./SpecificFilmInfo";
 import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
 
+import { Link } from "react-router-dom";
+
 export default function AdminFilms({
     allFilms,
     setAllFilms,
@@ -46,10 +48,14 @@ export default function AdminFilms({
                 key={index}
                 id="adminFilmContainer"
             >
-                <img
-                    src={film.poster}
-                    id="adminFilmPoster"
-                />
+                <Link
+                    to={`/films/${film.id}`}
+                >
+                    <img
+                        src={film.poster}
+                        id="adminFilmPoster"
+                    />
+                </Link>
 
                 <div id="adminFilmBasicInfo">
                     <h2

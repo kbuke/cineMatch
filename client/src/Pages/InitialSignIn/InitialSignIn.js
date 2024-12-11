@@ -8,18 +8,6 @@ import UploadPic from "./Components/4-UploadPic"
 import "./InitialSignIn.css"
 
 export default function InitialSignIn({
-    // allGenres,
-    // setAllGenres,
-    // userGenres,
-    // setUserGenres,
-    // loggedUser,
-    // allUsers,
-    // allFollows,
-    // setAllFollows,
-    // allProfilePictures,
-    // setAllProfilePictures,
-    // setAllUsers,
-    // Logo
     appData,
     loggedUser
 }){

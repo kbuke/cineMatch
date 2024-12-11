@@ -6,6 +6,7 @@ import FaveActors from "./Pages/InitialSignIn/Components/2-FaveActors";
 import Admin from "./Pages/Admin/Admin";
 import LoggedHome from "./Pages/LoggedInHome/LoggedHome";
 import Actors from "./Pages/Actors/Actors";
+import SpecificFilms from "./Pages/SpecificFilms/SpecificFilms";
 
 const routes = [
     {
@@ -41,6 +42,10 @@ const routes = [
             {
                 path: "/actors",
                 element: <Actors />
+            },
+            {
+                path: "/films/:id",
+                element: <SpecificFilms />
             }
         ]
     }

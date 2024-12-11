@@ -43,6 +43,13 @@ class AllFilms(Resource):
             return new_film.to_dict(), 201 
         except ValueError as e:
             return{"error": [str(e)]}, 400
+    
+class FilmId(Resource):
+    def get(self, id):
+        films = Movies.query.filter(Movies.id==id).first()
+        if films:
+            return make_response(films.to_dict(), 201)
+        return {"error": "Film not found"}
 
 class AllShows(Resource):
     def get(self):
@@ -257,7 +264,7 @@ class ProfilePictures(Resource):
         profile_pic_info = [picture.to_dict() for picture in UserPictures.query.all()]
         return profile_pic_info, 200
     
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'avif'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -427,7 +434,10 @@ class FilmCastId(Resource):
         
 
 api.add_resource(AllMedia, '/media')
+
 api.add_resource(AllFilms, '/films')
+api.add_resource(FilmId, '/films/<int:id>')
+
 api.add_resource(AllShows, '/shows')
 
 api.add_resource(AllGenres, '/genres')

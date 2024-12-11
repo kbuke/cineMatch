@@ -32,3 +32,14 @@
 .unfollowActorButton{
     background-color: rgb(135, 7, 7);
 }
+
+#faveActorRole{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 21%;
+
+    overflow-x: auto;
+
+    margin-left: 30px;
+
+}

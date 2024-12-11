@@ -24,7 +24,11 @@ export default function Actors(){
             style={{
                 marginLeft: "10px",
                 overflowY: "auto",
-                width: "100%"
+                width: "100%",
+                marginRight: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignContent: "center"
             }}
         >
             <FollowedActors 

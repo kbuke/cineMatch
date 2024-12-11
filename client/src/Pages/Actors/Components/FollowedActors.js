@@ -31,7 +31,13 @@ export default function FollowedActors({
 
 
     //Create user card
-    const actorCard=followingActors.map((actor, index) => (
+    const actorCard=
+        followingActors.length === 0?
+            <div>
+                <h1>You currently follow no actors. Please follow some below.</h1>
+            </div>
+            :
+            followingActors.map((actor, index) => (
         <div
             id="profileCard"
             key={index}

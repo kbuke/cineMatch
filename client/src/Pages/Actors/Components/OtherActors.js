@@ -19,7 +19,7 @@ export default function OtherActors({ allFollows, allActors, loggedUser, setAllF
             .map(follow => follow.followed_user.id);
 
         // Filter actors that are not followed by the loggedUser
-        const notFollowedActors = allActors.filter(actor => !followedActorIds.includes(actor.id));
+        const notFollowedActors = allActors.filter(actor => !followedActorIds.includes(actor.id) && loggedUser.id !== actor.id);
 
         setUnFollowedActors(notFollowedActors);
     }, [allFollows, allActors, loggedUser]);

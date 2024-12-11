@@ -17,7 +17,7 @@ export default function FaveActors({
     const [filterFollowers, setFilterFollowers] = useState([])
 
     useEffect(() => (
-        setFilterActors(allUsers.filter(user => user.user_type==="Actor"))
+        setFilterActors(allUsers.filter(user => user.user_type==="Actor" && user.id !== loggedUser.id))
     ), [allUsers])
 
     useEffect(() => (

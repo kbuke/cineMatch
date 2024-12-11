@@ -58,6 +58,13 @@ export default function AdminAddFilm({
                 <form
                     id="newForm"
                     onSubmit={(e) => handleNewFilm(e)}
+                    style={{
+                        marginTop: "80px",
+                        overflowY: "auto",
+                        marginBottom: "80px",
+                        display: "flex",
+                        flexDirection: "column"
+                    }}
                 >
                     <h2>Add a New Film</h2>
 
